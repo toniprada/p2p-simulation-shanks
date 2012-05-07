@@ -14,6 +14,7 @@ import es.upm.dit.gsi.shanks.agent.CatAgent;
 import es.upm.dit.gsi.shanks.agent.MotherAgent;
 import es.upm.dit.gsi.shanks.agent.ShanksAgent;
 import es.upm.dit.gsi.shanks.agent.TemperatureWatcherAgent;
+import es.upm.dit.gsi.shanks.agent.UserAgent;
 import es.upm.dit.gsi.shanks.agent.exception.DuplicatedActionIDException;
 import es.upm.dit.gsi.shanks.exception.DuplicatedAgentIDException;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
@@ -98,16 +99,30 @@ public class TutorialSimulation extends ShanksSimulation {
 			DuplicatedActionIDException {
 		// FakeShanksAgent agent = new FakeShanksAgent("resolverAgent",
 		// "src/es/upm/dit/gsi/shanks/agent/fake/FakeShanksAgent.asl");
-		ShanksAgent tempAgent = new TemperatureWatcherAgent("TempAgent",
-				(Computer) this.getScenario().getNetworkElement("PC"));
-		this.registerShanksAgent(tempAgent);
+//		ShanksAgent tempAgent = new TemperatureWatcherAgent("TempAgent",
+//				(Computer) this.getScenario().getNetworkElement("PC"));
+//		this.registerShanksAgent(tempAgent);
+//
+//		ShanksAgent catAgent = new CatAgent("Snowball", 0.1, 0.3);
+//		this.registerShanksAgent(catAgent);
+//		ShanksAgent motherAgent = new MotherAgent("Mary", 1);
+//		this.registerShanksAgent(motherAgent);
+//		ShanksAgent boyAgent = new BoyAgent("Charlie",
+//				(MotherAgent) motherAgent);
+//		this.registerShanksAgent(boyAgent);
+		
+		UserAgent userAgent1 = new UserAgent("user1", (Computer) this.getScenario().getNetworkElement("PC1"));
+		this.registerShanksAgent(userAgent1);
+		UserAgent userAgent2 = new UserAgent("user2", (Computer) this.getScenario().getNetworkElement("PC2"));
+		this.registerShanksAgent(userAgent2);
+		UserAgent userAgent3 = new UserAgent("user3", (Computer) this.getScenario().getNetworkElement("PC3"));
+		this.registerShanksAgent(userAgent3);
+		UserAgent userAgent4 = new UserAgent("user4", (Computer) this.getScenario().getNetworkElement("PC4"));
+		this.registerShanksAgent(userAgent4);
+		UserAgent userAgent5 = new UserAgent("user5", (Computer) this.getScenario().getNetworkElement("PC5"));
+		this.registerShanksAgent(userAgent5);
+		UserAgent userAgent6 = new UserAgent("user6", (Computer) this.getScenario().getNetworkElement("PC6"));
+		this.registerShanksAgent(userAgent6);
 
-		ShanksAgent catAgent = new CatAgent("Snowball", 0.1, 0.3);
-		this.registerShanksAgent(catAgent);
-		ShanksAgent motherAgent = new MotherAgent("Mary", 1);
-		this.registerShanksAgent(motherAgent);
-		ShanksAgent boyAgent = new BoyAgent("Charlie",
-				(MotherAgent) motherAgent);
-		this.registerShanksAgent(boyAgent);
 	}
 }

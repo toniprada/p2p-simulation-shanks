@@ -64,7 +64,7 @@ public class HANScenario2DPortrayal extends Scenario2DPortrayal {
 		this.situateDevice((Device)this.getScenario().getNetworkElement("PC4"), 40, 10);
 		this.situateDevice((Device)this.getScenario().getNetworkElement("PC5"), 50, 30);
 		this.situateDevice((Device)this.getScenario().getNetworkElement("PC6"), 40, 50);
-		this.situateDevice((Device)this.getScenario().getNetworkElement("Server"), 80, 30);
+		this.situateDevice((Device)this.getScenario().getNetworkElement("Server"), 30, 80);
 
 		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 12"));
 		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 13"));

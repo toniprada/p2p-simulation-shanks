@@ -73,8 +73,8 @@ public class Computer extends Device {
 	 */
 	@Override
 	public void fillIntialProperties() {
-		this.addProperty(Computer.PROPERTY_POWER, "ON");
-		this.addProperty(Computer.PROPERTY_CONNECTION, "ON");
+		this.addProperty(Computer.PROPERTY_POWER, "OFF");
+		this.addProperty(Computer.PROPERTY_CONNECTION, "OFF");
 
 	}
 

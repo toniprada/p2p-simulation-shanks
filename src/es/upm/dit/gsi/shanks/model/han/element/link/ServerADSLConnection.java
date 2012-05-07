@@ -13,7 +13,7 @@ public class ServerADSLConnection extends ADSLCable {
 
 	public ServerADSLConnection(String id)
 			throws UnsupportedNetworkElementStatusException {
-		super(id, ADSLCable.STATUS_CONNECTED);
+		super(id, ADSLCable.STATUS_DISCONNECTED);
 	}
 
 

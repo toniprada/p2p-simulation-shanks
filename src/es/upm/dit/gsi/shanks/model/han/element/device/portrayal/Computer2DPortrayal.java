@@ -36,7 +36,7 @@ public class Computer2DPortrayal extends Device2DPortrayal {
         if (status.equals(Computer.STATUS_DOWNLOADING)) {
             graphics.setColor(Color.green);
         } else if (status.equals(Computer.STATUS_OFF)) {
-            graphics.setColor(Color.black);
+            graphics.setColor(Color.white);
         } else if (status.equals(Computer.STATUS_WAITING)) {
         	graphics.setColor(Color.gray);
         }
