@@ -21,7 +21,7 @@ public class Computer extends Device {
 
 	public Computer(String id, String initialState)
 			throws UnsupportedNetworkElementStatusException {
-		super(id, initialState, false);
+		super(id, STATUS_OFF, false);
 	}
 
 	/*

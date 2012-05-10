@@ -5,21 +5,18 @@ package es.upm.dit.gsi.shanks.model.han.scenario.portrayal;
 
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import sim.portrayal.network.NetworkPortrayal2D;
+import sim.util.Double2D;
 import es.upm.dit.gsi.shanks.agent.BoyAgent;
 import es.upm.dit.gsi.shanks.agent.CatAgent;
 import es.upm.dit.gsi.shanks.agent.MotherAgent;
+import es.upm.dit.gsi.shanks.agent.capability.movement.Location;
 import es.upm.dit.gsi.shanks.agent.portrayal.BoyAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.agent.portrayal.CatAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.agent.portrayal.MotherAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
-import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
-import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
-import es.upm.dit.gsi.shanks.model.han.element.device.Monitor;
 import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Computer2DPortrayal;
-import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.EthernetRouter2DPortrayal;
-import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Monitor2DPortrayal;
 import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Server2DPortrayal;
 import es.upm.dit.gsi.shanks.model.han.element.link.portrayal.Link2DPortrayalChooser;
 import es.upm.dit.gsi.shanks.model.scenario.Scenario;
@@ -106,6 +103,12 @@ public class HANScenario2DPortrayal extends Scenario2DPortrayal {
         devicePortrayal.setPortrayalForClass(CatAgent.class, new CatAgent2DPortrayal());
         devicePortrayal.setPortrayalForClass(BoyAgent.class, new BoyAgent2DPortrayal());
         devicePortrayal.setPortrayalForClass(MotherAgent.class, new MotherAgent2DPortrayal());
+	}
+	
+	public Location getDeviceLocation(String id) {
+		Device d = (Device)this.getScenario().getNetworkElement(id);
+		Double2D double2d = this.getPlacedDevices().getObjectLocation(d);
+		return new Location(double2d);
 	}
 
 }

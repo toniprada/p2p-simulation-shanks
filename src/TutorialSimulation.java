@@ -9,18 +9,15 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import es.upm.dit.gsi.shanks.ShanksSimulation;
-import es.upm.dit.gsi.shanks.agent.BoyAgent;
-import es.upm.dit.gsi.shanks.agent.CatAgent;
-import es.upm.dit.gsi.shanks.agent.MotherAgent;
-import es.upm.dit.gsi.shanks.agent.ShanksAgent;
-import es.upm.dit.gsi.shanks.agent.TemperatureWatcherAgent;
 import es.upm.dit.gsi.shanks.agent.UserAgent;
+import es.upm.dit.gsi.shanks.agent.capability.movement.Location;
 import es.upm.dit.gsi.shanks.agent.exception.DuplicatedActionIDException;
 import es.upm.dit.gsi.shanks.exception.DuplicatedAgentIDException;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
 import es.upm.dit.gsi.shanks.model.han.scenario.HANScenario;
+import es.upm.dit.gsi.shanks.model.han.scenario.portrayal.HANScenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.Scenario;
 import es.upm.dit.gsi.shanks.model.scenario.exception.DuplicatedIDException;
 import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
@@ -110,19 +107,27 @@ public class TutorialSimulation extends ShanksSimulation {
 //		ShanksAgent boyAgent = new BoyAgent("Charlie",
 //				(MotherAgent) motherAgent);
 //		this.registerShanksAgent(boyAgent);
+		HANScenario2DPortrayal s = null;
+		try {
+			s = (HANScenario2DPortrayal) this.getScenarioPortrayal();
+		} catch (DuplicatedPortrayalIDException e) {
+		} catch (ScenarioNotFoundException e) {
+		}
 		
-		UserAgent userAgent1 = new UserAgent("user1", (Computer) this.getScenario().getNetworkElement("PC1"));
+		UserAgent userAgent1 = new UserAgent("user1", (Computer) this.getScenario().getNetworkElement("PC1"), s.getDeviceLocation("PC1"));
 		this.registerShanksAgent(userAgent1);
-		UserAgent userAgent2 = new UserAgent("user2", (Computer) this.getScenario().getNetworkElement("PC2"));
+		UserAgent userAgent2 = new UserAgent("user2", (Computer) this.getScenario().getNetworkElement("PC2"), s.getDeviceLocation("PC2"));
 		this.registerShanksAgent(userAgent2);
-		UserAgent userAgent3 = new UserAgent("user3", (Computer) this.getScenario().getNetworkElement("PC3"));
+		UserAgent userAgent3 = new UserAgent("user3", (Computer) this.getScenario().getNetworkElement("PC3"), s.getDeviceLocation("PC3"));
 		this.registerShanksAgent(userAgent3);
-		UserAgent userAgent4 = new UserAgent("user4", (Computer) this.getScenario().getNetworkElement("PC4"));
+		UserAgent userAgent4 = new UserAgent("user4", (Computer) this.getScenario().getNetworkElement("PC4"), s.getDeviceLocation("PC4"));
 		this.registerShanksAgent(userAgent4);
-		UserAgent userAgent5 = new UserAgent("user5", (Computer) this.getScenario().getNetworkElement("PC5"));
+		UserAgent userAgent5 = new UserAgent("user5", (Computer) this.getScenario().getNetworkElement("PC5"), s.getDeviceLocation("PC5"));
 		this.registerShanksAgent(userAgent5);
-		UserAgent userAgent6 = new UserAgent("user6", (Computer) this.getScenario().getNetworkElement("PC6"));
+		UserAgent userAgent6 = new UserAgent("user6", (Computer) this.getScenario().getNetworkElement("PC6"), s.getDeviceLocation("PC6"));
 		this.registerShanksAgent(userAgent6);
+		
+
 
 	}
 }

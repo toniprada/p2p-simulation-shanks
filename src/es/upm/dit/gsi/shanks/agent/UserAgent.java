@@ -3,6 +3,8 @@
  */
 package es.upm.dit.gsi.shanks.agent;
 
+import jason.asSemantics.Message;
+
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -11,6 +13,8 @@ import sim.field.network.Edge;
 import sim.field.network.Network;
 import sim.util.Bag;
 import es.upm.dit.gsi.shanks.ShanksSimulation;
+import es.upm.dit.gsi.shanks.agent.capability.movement.Location;
+import es.upm.dit.gsi.shanks.agent.capability.perception.PercipientShanksAgent;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
@@ -26,20 +30,24 @@ import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortra
  * @author a.carrera
  * 
  */
-public class UserAgent extends SimpleShanksAgent {
+public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgent {
+	
+	public static final double PERCEPTION_RANGUE = 5.0;
 
 	private Logger logger = Logger.getLogger(UserAgent.class.getName());
 
 	private Computer computer;
+	private Location location;
 
 	/**
      * 
      */
 	private static final long serialVersionUID = 263836274462865563L;
 
-	public UserAgent(String id, Computer computer) {
+	public UserAgent(String id, Computer computer, Location location) {
 		super(id);
 		this.computer = computer;
+		this.location = location;
 	}
 
 	/*
@@ -49,7 +57,14 @@ public class UserAgent extends SimpleShanksAgent {
 	 */
 	@Override
 	public void checkMail() {
-		// Ignore all mails
+		try {
+			Message pendingMessage = this.getInbox().get(0);
+			this.getInbox().remove(pendingMessage);
+			//this.targetLocation = (Location) pendingMessage.getPropCont();
+		} catch (Exception e) {
+			logger.fine("There is no message in the inbox of the agent "
+					+ this.getID());
+		}
 	}
 
 	/*
@@ -82,7 +97,7 @@ public class UserAgent extends SimpleShanksAgent {
 //					}
 					
 					Device server = (Device) simulation.getScenario().getNetworkElement("Server");
-					ADSLCable link = new ServerADSLConnection("Cable" + computer.getID() + "-Server");
+					ADSLCable link = new ServerADSLConnection("Cable " + computer.getID() + "-Server");
 					computer.connectToDeviceWithLink(server, link);
 					Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
 					p.drawLink(link);
@@ -95,15 +110,13 @@ public class UserAgent extends SimpleShanksAgent {
 						Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
 						Network net = p.getLinks();
 						Bag nodes = net.allNodes;
-						Edge edge = (Edge) net.getEdges(computer, nodes).objs[0];
-						net.removeEdge(edge);
-//						nodes.
-						//Busca el nodo en la Bag que esté conectado al link
-//						Bag links = net.getEdges(device, bag);
-						//  Busca el link en la Bag
-//					    links.removeEdge(link);
-						// Si tienes el link a priori, no tienes que buscar nada, simplemente con el último método, lo borras...
-
+						for (int i = 0; i < nodes.size(); i++) {
+							Edge edge = (Edge) net.getEdges(computer, nodes).objs[i];
+							Link l = (Link) edge.getInfo();
+							if (l.getID().equals(link.getID())) {
+								net.removeEdge(edge);
+							}
+						}
 					}
 					
 //					else if (link instanceof P2pADSLConnection) {
@@ -125,6 +138,16 @@ public class UserAgent extends SimpleShanksAgent {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Location getCurrentLocation() {
+		return location;
+	}
+
+	@Override
+	public double getPerceptionRange() {
+		return PERCEPTION_RANGUE;
 	}
 	
 //	public boolean isValidLink(Link link) {
