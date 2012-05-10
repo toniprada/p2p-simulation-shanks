@@ -65,28 +65,28 @@ public class HANScenario2DPortrayal extends Scenario2DPortrayal {
 		this.situateDevice((Device)this.getScenario().getNetworkElement("PC5"), 50, 30);
 		this.situateDevice((Device)this.getScenario().getNetworkElement("PC6"), 40, 50);
 		this.situateDevice((Device)this.getScenario().getNetworkElement("Server"), 30, 80);
-
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 12"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 13"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 14"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 15"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 16"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 23"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 24"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 25"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 26"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 34"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 35"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 36"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 45"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 46"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 56"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S1"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S2"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S3"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S4"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S5"));
-		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S6"));
+//
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 12"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 13"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 14"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 15"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 16"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 23"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 24"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 25"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 26"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 34"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 35"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 36"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 45"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 46"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable 56"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S1"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S2"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S3"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S4"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S5"));
+//		this.drawLink((Link)this.getScenario().getNetworkElement("Cable S6"));
 
 	}
 

@@ -60,7 +60,7 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         } else if (status.equals(ADSLCable.STATUS_OVERLOADED)) {
             graphics.setColor(Color.red);
         } else if (status.equals(ADSLCable.STATUS_DISCONNECTED)) {
-        	graphics.setColor(Color.white);
+        	graphics.setColor(Color.gray);
         }
 
 
@@ -75,9 +75,9 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         graphics.drawLine(startX, startY, endX, endY);
         graphics.fillRect(midX-(int)(width/2), midY-(int)(height/2), w, h);
 
-        // Draw the devices ID ID
-//        graphics.setColor(Color.black);
-//        graphics.drawString(link.getID(), midX - 5, midY);
+//         Draw the devices ID ID
+        graphics.setColor(Color.black);
+        graphics.drawString(link.getID(), midX - 5, midY);
     }
 
     /**
@@ -94,8 +94,8 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         final int startY = (int) ei.draw.y;
         final int endX = (int) ei.secondPoint.x;
         final int endY = (int) ei.secondPoint.y;
-//        final int midX = (int) (ei.draw.x + ei.secondPoint.x) / 2;
-//        final int midY = (int) (ei.draw.y + ei.secondPoint.y) / 2;
+        final int midX = (int) (ei.draw.x + ei.secondPoint.x) / 2;
+        final int midY = (int) (ei.draw.y + ei.secondPoint.y) / 2;
 
         String status = link.getCurrentStatus();
 
@@ -105,14 +105,14 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         } else if (status.equals(ADSLCable.STATUS_OVERLOADED)) {
             graphics.setColor(Color.red);
         } else if (status.equals(ADSLCable.STATUS_DISCONNECTED)) {
-        	graphics.setColor(Color.white);
+        	graphics.setColor(Color.gray);
         }
         graphics.drawLine(startX, startY, endX, endY);
 
-//        graphics.setColor(Color.blue);
-//        graphics.setFont(labelFont);
-//        int width = graphics.getFontMetrics().stringWidth(link.getID());
-//        graphics.drawString(link.getID(), midX - width / 2, midY);
+        graphics.setColor(Color.blue);
+        graphics.setFont(labelFont);
+        int width = graphics.getFontMetrics().stringWidth(link.getID());
+        graphics.drawString(link.getID(), midX - width / 2, midY);
     }
 
 }

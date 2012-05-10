@@ -13,7 +13,7 @@ public class P2pADSLConnection extends ADSLCable {
 
 	public P2pADSLConnection(String id)
 			throws UnsupportedNetworkElementStatusException {
-		super(id, ADSLCable.STATUS_DISCONNECTED);
+		super(id, ADSLCable.STATUS_CONNECTED);
 	}
 
 

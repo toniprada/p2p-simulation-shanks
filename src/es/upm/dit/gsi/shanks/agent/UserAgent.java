@@ -7,14 +7,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import sim.field.network.Edge;
+import sim.field.network.Network;
+import sim.util.Bag;
 import es.upm.dit.gsi.shanks.ShanksSimulation;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
+import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
 import es.upm.dit.gsi.shanks.model.han.element.link.ADSLCable;
-import es.upm.dit.gsi.shanks.model.han.element.link.P2pADSLConnection;
 import es.upm.dit.gsi.shanks.model.han.element.link.ServerADSLConnection;
+import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
+import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
+import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortrayalIDException;
 
 /**
  * @author a.carrera
@@ -62,28 +68,44 @@ public class UserAgent extends SimpleShanksAgent {
 			if (rand == 0) {
 				String status = computer.getCurrentStatus();
 				if (status.equals(Computer.STATUS_OFF)) {
-					computer.setCurrentStatus(Computer.STATUS_WAITING);
-					List<Link> links = computer.getLinks();
-					for (Link link : links) {
-						if (link instanceof ServerADSLConnection) {
-							link.setCurrentStatus(ADSLCable.STATUS_CONNECTED);
-						}
+					computer.setCurrentStatus(Computer.STATUS_DOWNLOADING);
+//					List<Link> links = computer.getLinks();
+//					for (Link link : links) {
+//						if (link instanceof ServerADSLConnection) {
+//							link.setCurrentStatus(ADSLCable.STATUS_CONNECTED);
+//						}
 //						else if (link instanceof P2pADSLConnection) {
 //							if (isValidLink(link)){
 //								link.setCurrentStatus(ADSLCable.STATUS_CONNECTED);
 //							}
 //						}
-					}
-				} else if (status.equals(Computer.STATUS_WAITING)) {
-					computer.setCurrentStatus(Computer.STATUS_DOWNLOADING);
-				} else {
+//					}
+					
+					Device server = (Device) simulation.getScenario().getNetworkElement("Server");
+					ADSLCable link = new ServerADSLConnection("Cable" + computer.getID() + "-Server");
+					computer.connectToDeviceWithLink(server, link);
+					Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
+					p.drawLink(link);
+				}  else {
 					computer.setCurrentStatus(Computer.STATUS_OFF);
+					// Remove all connections
 					List<Link> links = computer.getLinks();
 					for (Link link : links) {
-						if (link instanceof ServerADSLConnection) {
-							link.setCurrentStatus(ADSLCable.STATUS_DISCONNECTED);
-						}
+						simulation.getScenario().removeNetworkElement(link);
+						Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
+						Network net = p.getLinks();
+						Bag nodes = net.allNodes;
+						Edge edge = (Edge) net.getEdges(computer, nodes).objs[0];
+						net.removeEdge(edge);
+//						nodes.
+						//Busca el nodo en la Bag que esté conectado al link
+//						Bag links = net.getEdges(device, bag);
+						//  Busca el link en la Bag
+//					    links.removeEdge(link);
+						// Si tienes el link a priori, no tienes que buscar nada, simplemente con el último método, lo borras...
+
 					}
+					
 //					else if (link instanceof P2pADSLConnection) {
 //							link.setCurrentStatus(ADSLCable.STATUS_DISCONNECTED);
 //						}
@@ -92,18 +114,28 @@ public class UserAgent extends SimpleShanksAgent {
 			}
 		} catch (UnsupportedNetworkElementStatusException e) {
 			// TODO
+			e.printStackTrace();
+		} catch (TooManyConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DuplicatedPortrayalIDException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ScenarioNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	public boolean isValidLink(Link link) {
-		List<Device> devices = link.getLinkedDevices();
-		for (Device d : devices) {
-			if (d.getCurrentStatus() == Computer.STATUS_OFF) {
-				return false;
-			}
-		}
-		return true;
-	}
+//	public boolean isValidLink(Link link) {
+//		List<Device> devices = link.getLinkedDevices();
+//		for (Device d : devices) {
+//			if (d.getCurrentStatus() == Computer.STATUS_OFF) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 	
 }
