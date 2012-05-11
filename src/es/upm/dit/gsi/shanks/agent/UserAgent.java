@@ -22,6 +22,7 @@ import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
 import es.upm.dit.gsi.shanks.model.han.element.link.ADSLCable;
 import es.upm.dit.gsi.shanks.model.han.element.link.ServerADSLConnection;
+import es.upm.dit.gsi.shanks.model.scenario.exception.DuplicatedIDException;
 import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortrayalIDException;
@@ -78,9 +79,10 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	public void executeReasoningCycle(ShanksSimulation simulation) {
 		
 		Random r = new Random();
-		int rand = r.nextInt(1000);
+		int rand = r.nextInt(10);
 		try {
 			if (rand == 0) {
+				String name = this.getID();
 				String status = computer.getCurrentStatus();
 				if (status.equals(Computer.STATUS_OFF)) {
 					computer.setCurrentStatus(Computer.STATUS_DOWNLOADING);
@@ -99,6 +101,12 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					Device server = (Device) simulation.getScenario().getNetworkElement("Server");
 					ADSLCable link = new ServerADSLConnection("Cable " + computer.getID() + "-Server");
 					computer.connectToDeviceWithLink(server, link);
+					try {
+						simulation.getScenario().addNetworkElement(link);
+					} catch (DuplicatedIDException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
 					p.drawLink(link);
 				}  else {
@@ -106,17 +114,20 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					// Remove all connections
 					List<Link> links = computer.getLinks();
 					for (Link link : links) {
-						simulation.getScenario().removeNetworkElement(link);
-						Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
-						Network net = p.getLinks();
-						Bag nodes = net.allNodes;
-						for (int i = 0; i < nodes.size(); i++) {
-							Edge edge = (Edge) net.getEdges(computer, nodes).objs[i];
-							Link l = (Link) edge.getInfo();
-							if (l.getID().equals(link.getID())) {
-								net.removeEdge(edge);
-							}
-						}
+
+						link.setCurrentStatus(ServerADSLConnection.STATUS_DISCONNECTED);
+//						simulation.getScenario().removeNetworkElement(link);
+//						Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal(); 
+//						Network net = p.getLinks();
+//						Bag nodes = net.allNodes;
+//						for (int i = 0; i < nodes.size(); i++) {
+//							Edge edge = (Edge) net.getEdges(computer, nodes).objs[i];
+//							Link l = (Link) edge.getInfo();
+//							if (l.getID().equals(link.getID())) {
+////								net.removeEdge(edge);
+//								l.setCurrentStatus(ServerADSLConnection.STATUS_DISCONNECTED);
+//							}
+//						}
 					}
 					
 //					else if (link instanceof P2pADSLConnection) {
