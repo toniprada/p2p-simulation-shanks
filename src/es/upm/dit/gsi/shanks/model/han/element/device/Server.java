@@ -11,84 +11,47 @@ import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementSt
  * 
  */
 public class Server extends Device {
+	
+	public static final double STREAMING_BANDWIDTH = 1.0;
+	public static final double MAX_BANDWIDTH = 2.0;
+	public static final double THRESHOLD = 0.3;
 
-	public static final String STATUS_OFF = "OFF";
 	public static final String STATUS_OK = "OK";
-	public static final String STATUS_HACKED = "Disconnected";
+	public static final String STATUS_OVERLOADED = "Overloaded";
 
-	public static final String PROPERTY_POWER = "Power";
-	public static final String PROPERTY_CONNECTION = "Connection";
+	public static final String PROPERTY_USED_BANDWIDTH = "used_bandwidth";
 
 	public Server(String id, String initialState)
 			throws UnsupportedNetworkElementStatusException {
 		super(id, initialState, false);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.upm.dit.gsi.shanks.model.element.NetworkElement#checkProperties()
-	 */
 	@Override
 	public void checkProperties()
 			throws UnsupportedNetworkElementStatusException {
-		String status = this.getCurrentStatus();
-		if (status.equals(Server.STATUS_OFF)) {
-			this.changeProperty(Server.PROPERTY_POWER, "OFF");
-			this.changeProperty(Server.PROPERTY_CONNECTION, "OFF");
-		} else if (status.equals(Server.STATUS_OK)) {
-			this.changeProperty(Server.PROPERTY_POWER, "ON");
-			this.changeProperty(Server.PROPERTY_CONNECTION, "ON");
-		} else if (status.equals(Server.STATUS_HACKED)) {
-			this.changeProperty(Server.PROPERTY_POWER, "ON");
-			this.changeProperty(Server.PROPERTY_CONNECTION, "OFF");
-		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.upm.dit.gsi.shanks.model.element.NetworkElement#checkStatus()
-	 */
 	@Override
 	public void checkStatus() throws UnsupportedNetworkElementStatusException {
-		String power = (String) this.getProperty(Server.PROPERTY_POWER);
-		String connection = (String) this.getProperty(Server.PROPERTY_CONNECTION);
-		if (power.equals("OFF")) {
-			this.updateStatusTo(Server.STATUS_OFF);
+		double usedBandwidth = (Double) this.getProperty(Server.PROPERTY_USED_BANDWIDTH);
+		if ((MAX_BANDWIDTH - usedBandwidth) > THRESHOLD) {
+			this.updateStatusTo(Server.STATUS_OK);
 		} else {
-			if (connection.equals("ON")) {
-				this.updateStatusTo(Server.STATUS_OK);
-			} else {
-				this.updateStatusTo(Server.STATUS_HACKED);
-			}
+			this.updateStatusTo(Server.STATUS_OVERLOADED);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.upm.dit.gsi.shanks.model.element.NetworkElement#fillIntialProperties()
-	 */
+
 	@Override
 	public void fillIntialProperties() {
-		this.addProperty(Server.PROPERTY_POWER, "ON");
-		this.addProperty(Server.PROPERTY_CONNECTION, "ON");
+		this.addProperty(Server.PROPERTY_USED_BANDWIDTH, 0.0);
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.upm.dit.gsi.shanks.model.element.NetworkElement#setPossibleStates()
-	 */
 	@Override
 	public void setPossibleStates() {
-		this.addPossibleStatus(Server.STATUS_HACKED);
+		this.addPossibleStatus(Server.STATUS_OVERLOADED);
 		this.addPossibleStatus(Server.STATUS_OK);
-		this.addPossibleStatus(Server.STATUS_OFF);
 	}
 
 }

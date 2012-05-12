@@ -35,9 +35,7 @@ public class Server2DPortrayal extends Device2DPortrayal {
         String status = device.getCurrentStatus();
         if (status.equals(Server.STATUS_OK)) {
             graphics.setColor(Color.green);
-        } else if (status.equals(Server.STATUS_OFF)) {
-            graphics.setColor(Color.black);
-        } else if (status.equals(Server.STATUS_HACKED)) {
+        } else if (status.equals(Server.STATUS_OVERLOADED)) {
         	graphics.setColor(Color.red);
         }
 

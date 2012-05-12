@@ -7,6 +7,7 @@ import java.util.Set;
 
 import es.upm.dit.gsi.shanks.model.element.NetworkElement;
 import es.upm.dit.gsi.shanks.model.failure.Failure;
+import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 
 /**
  * @author a.carrera
@@ -26,11 +27,7 @@ public class ServerOverload extends Failure {
 	 */
 	@Override
 	public void addPossibleAffectedElements() {
-//		this.addPossibleAffectedElements(ADSLCable.class,
-//				ADSLCable.STATUS_DISCONNECTED);
-////		this.addPossibleAffectedElements(HDMICable.class, HDMICable.STATUS_CUT);
-//		this.addPossibleAffectedElements(Computer.class,
-//				Computer.STATUS_WAITING);
+		this.addPossibleAffectedElements(Server.class, Server.STATUS_OVERLOADED);
 	}
 
 	/* (non-Javadoc)

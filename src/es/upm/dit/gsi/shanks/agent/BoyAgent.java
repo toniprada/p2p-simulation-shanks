@@ -23,7 +23,7 @@ import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementSt
 import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
 import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLCable;
+import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario3DPortrayal;
 
@@ -120,11 +120,11 @@ public class BoyAgent extends SimpleShanksAgent
 									|| nearDevice instanceof EthernetRouter) {
 								List<Link> links = nearDevice.getLinks();
 								for (Link link : links) {
-									if (link instanceof ADSLCable) {
+									if (link instanceof ADSLConnection) {
 										String status = link.getCurrentStatus();
 										if (status
-												.equals(ADSLCable.STATUS_DISCONNECTED)) {
-											this.repairEthernetCable((ADSLCable) link);
+												.equals(ADSLConnection.STATUS_DISCONNECTED)) {
+											this.repairEthernetCable((ADSLConnection) link);
 											break;
 										}
 									}
@@ -290,11 +290,11 @@ public class BoyAgent extends SimpleShanksAgent
 	 * 
 	 * @param link
 	 */
-	private void repairEthernetCable(ADSLCable link) {
+	private void repairEthernetCable(ADSLConnection link) {
 		try {
 			logger.warning("The cat is biting the link " + link.getID()
 					+ "!!!!");
-			link.setCurrentStatus(ADSLCable.STATUS_CONNECTED);
+			link.setCurrentStatus(ADSLConnection.STATUS_CONNECTED);
 		} catch (Exception e) {
 			logger.severe("Exception when cat is trying to bite the link: "
 					+ e.getMessage());

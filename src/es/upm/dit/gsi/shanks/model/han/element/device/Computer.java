@@ -13,7 +13,7 @@ import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementSt
 public class Computer extends Device {
 
 	public static final String STATUS_OFF = "OFF";
-	public static final String STATUS_DOWNLOADING = "OK";
+	public static final String STATUS_ON = "OK";
 	public static final String STATUS_WAITING = "Disconnected";
 
 	public static final String PROPERTY_POWER = "Power";
@@ -36,7 +36,7 @@ public class Computer extends Device {
 		if (status.equals(Computer.STATUS_OFF)) {
 			this.changeProperty(Computer.PROPERTY_POWER, "OFF");
 			this.changeProperty(Computer.PROPERTY_CONNECTION, "OFF");
-		} else if (status.equals(Computer.STATUS_DOWNLOADING)) {
+		} else if (status.equals(Computer.STATUS_ON)) {
 			this.changeProperty(Computer.PROPERTY_POWER, "ON");
 			this.changeProperty(Computer.PROPERTY_CONNECTION, "ON");
 		} else if (status.equals(Computer.STATUS_WAITING)) {
@@ -58,7 +58,7 @@ public class Computer extends Device {
 			this.updateStatusTo(Computer.STATUS_OFF);
 		} else {
 			if (connection.equals("ON")) {
-				this.updateStatusTo(Computer.STATUS_DOWNLOADING);
+				this.updateStatusTo(Computer.STATUS_ON);
 			} else {
 				this.updateStatusTo(Computer.STATUS_WAITING);
 			}
@@ -87,7 +87,7 @@ public class Computer extends Device {
 	@Override
 	public void setPossibleStates() {
 		this.addPossibleStatus(Computer.STATUS_WAITING);
-		this.addPossibleStatus(Computer.STATUS_DOWNLOADING);
+		this.addPossibleStatus(Computer.STATUS_ON);
 		this.addPossibleStatus(Computer.STATUS_OFF);
 	}
 

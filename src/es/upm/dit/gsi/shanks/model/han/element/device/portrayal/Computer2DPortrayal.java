@@ -33,7 +33,7 @@ public class Computer2DPortrayal extends Device2DPortrayal {
         final double height = 10;
 
         String status = device.getCurrentStatus();
-        if (status.equals(Computer.STATUS_DOWNLOADING)) {
+        if (status.equals(Computer.STATUS_ON)) {
             graphics.setColor(Color.green);
         } else if (status.equals(Computer.STATUS_OFF)) {
             graphics.setColor(Color.white);

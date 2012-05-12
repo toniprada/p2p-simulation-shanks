@@ -17,7 +17,7 @@ import es.upm.dit.gsi.shanks.agent.capability.perception.PercipientShanksAgent;
 import es.upm.dit.gsi.shanks.agent.capability.perception.ShanksAgentPerceptionCapability;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLCable;
+import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario3DPortrayal;
 
@@ -236,18 +236,18 @@ public class CatAgent extends SimpleShanksAgent implements MobileShanksAgent, Pe
 	 * 
 	 * @param link
 	 */
-	private void bitesLink(ADSLCable link) {
+	private void bitesLink(ADSLConnection link) {
 		try {
 			logger.warning("The cat is biting the link " + link.getID()
 					+ "!!!!");
-			if (link.getCurrentStatus().equals(ADSLCable.STATUS_CONNECTED)) {
-				link.setCurrentStatus(ADSLCable.STATUS_OVERLOADED);
-			} else if (link.getCurrentStatus().equals(
-					ADSLCable.STATUS_OVERLOADED)) {
-				// Good solution -> Generate an event/failure
-				// Now we use a workaround to change states
-				link.setCurrentStatus(ADSLCable.STATUS_DISCONNECTED);
-			}
+//			if (link.getCurrentStatus().equals(ADSLConnection.STATUS_CONNECTED)) {
+//				link.setCurrentStatus(ADSLConnection.STATUS_OVERLOADED);
+//			} else if (link.getCurrentStatus().equals(
+//					ADSLConnection.STATUS_OVERLOADED)) {
+//				// Good solution -> Generate an event/failure
+//				// Now we use a workaround to change states
+//				link.setCurrentStatus(ADSLConnection.STATUS_DISCONNECTED);
+//			}
 		} catch (Exception e) {
 			logger.severe("Exception when cat is trying to bite the link: "
 					+ e.getMessage());

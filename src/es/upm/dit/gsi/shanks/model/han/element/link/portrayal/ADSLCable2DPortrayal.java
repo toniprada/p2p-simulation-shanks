@@ -11,8 +11,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.network.EdgeDrawInfo2D;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.element.link.portrayal.Link2DPortrayal;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLCable;
-import es.upm.dit.gsi.shanks.model.han.element.link.ServerADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
 
 /**
  * @author a.carrera
@@ -56,11 +55,9 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         String status = link.getCurrentStatus();
 
         graphics.setColor(Color.black);
-        if (status.equals(ADSLCable.STATUS_CONNECTED)) {
+        if (status.equals(ADSLConnection.STATUS_CONNECTED)) {
             graphics.setColor(Color.green);
-        } else if (status.equals(ADSLCable.STATUS_OVERLOADED)) {
-            graphics.setColor(Color.red);
-        } else if (status.equals(ADSLCable.STATUS_DISCONNECTED)) {
+        }  else if (status.equals(ADSLConnection.STATUS_DISCONNECTED)) {
         	graphics.setColor(Color.gray);
         }
 
@@ -101,17 +98,14 @@ public class ADSLCable2DPortrayal extends Link2DPortrayal {
         String status = link.getCurrentStatus();
 
         graphics.setColor(Color.black);
-        if (status.equals(ADSLCable.STATUS_CONNECTED)) {
+        if (status.equals(ADSLConnection.STATUS_CONNECTED)) {
             graphics.setColor(Color.green);
             graphics.drawLine(startX, startY, endX, endY);
-        } else if (status.equals(ADSLCable.STATUS_OVERLOADED)) {
-            graphics.setColor(Color.red);
-            graphics.drawLine(startX, startY, endX, endY);
-        } else if (status.equals(ADSLCable.STATUS_DISCONNECTED)) {
+        } else if (status.equals(ADSLConnection.STATUS_DISCONNECTED)) {
         	graphics.setColor(Color.gray);
         }
 
-        if (!status.equals(ADSLCable.STATUS_DISCONNECTED)) {
+        if (!status.equals(ADSLConnection.STATUS_DISCONNECTED)) {
             graphics.setColor(Color.blue);
             graphics.setFont(labelFont);
             int width = graphics.getFontMetrics().stringWidth(link.getID());
