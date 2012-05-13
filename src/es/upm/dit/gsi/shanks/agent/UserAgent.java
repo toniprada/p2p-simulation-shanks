@@ -5,7 +5,6 @@ package es.upm.dit.gsi.shanks.agent;
 
 import jason.asSemantics.Message;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -60,8 +59,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			this.getInbox().remove(pendingMessage);
 			this.serverState = (String) pendingMessage.getPropCont();
 		} catch (Exception e) {
-			logger.fine("There is no message in the inbox of the agent "
-					+ this.getID());
+			logger.fine("There is no message in the inbox of the agent " + this.getID());
 		}
 	}
 
@@ -105,21 +103,21 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
 		String linkId = computer.getID() + "-Server";
-		Link link = getLinkIfExists(computer, linkId);
+		ADSLConnection link = (ADSLConnection) getLinkIfExists(computer, linkId);
 		if (link != null) {
 			link.setCurrentStatus(ADSLConnection.STATUS_CONNECTED);
-			HashMap properties = new HashMap<String, Double>();
-			properties.add(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, Server.STREAMING_BANDWIDTH);
-			link.setProperties(properties)
+			link.changeUsage(+Server.STREAMING_BANDWIDTH);
+//			HashMap properties = new HashMap<String, Double>();
+//			properties.add(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, Server.STREAMING_BANDWIDTH);
+//			link.setProperties(properties)
 		} else {
 			try {
-				Device server = (Device) simulation.getScenario()
-						.getNetworkElement("Server");
+				Device server = (Device) simulation.getScenario().getNetworkElement("Server");
 				link = new ADSLConnection(linkId);
 				computer.connectToDeviceWithLink(server, link);
+				link.changeUsage(+Server.STREAMING_BANDWIDTH);
 				simulation.getScenario().addNetworkElement(link);
-				Scenario2DPortrayal p = (Scenario2DPortrayal) simulation
-						.getScenarioPortrayal();
+				Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
 				p.drawLink(link);
 			} catch (DuplicatedIDException e) {
 				logger.severe(e.getMessage());
@@ -146,8 +144,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 							link = new ADSLConnection(linkId);
 							computer.connectToDeviceWithLink(neighbour, link);
 							simulation.getScenario().addNetworkElement(link);
-							Scenario2DPortrayal p = (Scenario2DPortrayal) simulation
-									.getScenarioPortrayal();
+							Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
 							p.drawLink(link);
 						} catch (DuplicatedIDException e) {
 							logger.severe(e.getMessage());
@@ -161,7 +158,9 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	private void closeAllConnections() throws UnsupportedNetworkElementStatusException {
 		List<Link> links = computer.getLinks();
 		for (Link link : links) {
-			link.setCurrentStatus(ADSLConnection.STATUS_DISCONNECTED);
+			ADSLConnection l = (ADSLConnection) link;
+			l.setCurrentStatus(ADSLConnection.STATUS_DISCONNECTED);
+			l.removeUsage();
 		}
 	}
 	

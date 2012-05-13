@@ -3,11 +3,8 @@
  */
 package es.upm.dit.gsi.shanks.model.han.element.link;
 
-import java.util.HashMap;
-
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 
 /**
  * @author a.carrera
@@ -74,7 +71,7 @@ public class ADSLConnection extends Link {
 	 */
 	@Override
 	public void fillIntialProperties() {
-		this.addProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, 0);
+		this.addProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, 0.0);
 	}
 
 	/*
@@ -89,13 +86,23 @@ public class ADSLConnection extends Link {
 		this.addPossibleStatus(ADSLConnection.STATUS_DISCONNECTED);
 	}
 	
-	public void addUsage(double bandwidth) {
-		double actual = (Double) this.getProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE);
-//		if (actual > 0)
-//		this.changeProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, );
-//		HashMap properties = new HashMap<String, Double>();
-//		properties.add(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, Server.STREAMING_BANDWIDTH);
-//		link.setProperties(properties)
+	public void changeUsage(double bandwidth) {
+		try {
+			double actual = (Double) this.getProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE);	
+			this.changeProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, actual + bandwidth);
+		} catch (UnsupportedNetworkElementStatusException e) {
+		}
+	}
+	
+	public void removeUsage() {
+		try {
+			this.changeProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE, 0.0);
+		} catch (UnsupportedNetworkElementStatusException e) {
+		}
 	}
 
+	public double getUsage() {
+		return (Double) this.getProperty(ADSLConnection.PROPERTY_BANDWIDTH_USAGE);	
+	}
+	
 }

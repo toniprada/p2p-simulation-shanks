@@ -9,13 +9,14 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import es.upm.dit.gsi.shanks.ShanksSimulation;
+import es.upm.dit.gsi.shanks.agent.ServerAgent;
 import es.upm.dit.gsi.shanks.agent.UserAgent;
-import es.upm.dit.gsi.shanks.agent.capability.movement.Location;
 import es.upm.dit.gsi.shanks.agent.exception.DuplicatedActionIDException;
 import es.upm.dit.gsi.shanks.exception.DuplicatedAgentIDException;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 import es.upm.dit.gsi.shanks.model.han.scenario.HANScenario;
 import es.upm.dit.gsi.shanks.model.han.scenario.portrayal.HANScenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.Scenario;
@@ -127,6 +128,8 @@ public class TutorialSimulation extends ShanksSimulation {
 		UserAgent userAgent6 = new UserAgent("user6", (Computer) this.getScenario().getNetworkElement("PC6"), s.getDeviceLocation("PC6"));
 		this.registerShanksAgent(userAgent6);
 		
+		ServerAgent serverAgent = new ServerAgent("server", (Server) this.getScenario().getNetworkElement("Server"));
+		this.registerShanksAgent(serverAgent);
 
 
 	}
