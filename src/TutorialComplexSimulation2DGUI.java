@@ -4,7 +4,10 @@ import es.upm.dit.gsi.shanks.ShanksSimulation;
 import es.upm.dit.gsi.shanks.ShanksSimulation2DGUI;
 import es.upm.dit.gsi.shanks.model.adsl.scenario.ADSLAccesNetworkScenario;
 import es.upm.dit.gsi.shanks.model.scenario.Scenario;
+import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
+import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedChartIDException;
+import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortrayalIDException;
 
 /**
  * 
@@ -50,5 +53,19 @@ public class TutorialComplexSimulation2DGUI extends ShanksSimulation2DGUI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void addCharts(Scenario2DPortrayal arg0)
+			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
+			ScenarioNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void locateFrames(Scenario2DPortrayal arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

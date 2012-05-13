@@ -7,7 +7,7 @@ import java.util.Set;
 
 import es.upm.dit.gsi.shanks.model.element.NetworkElement;
 import es.upm.dit.gsi.shanks.model.failure.Failure;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 
 /**
  * @author a.carrera
@@ -35,9 +35,9 @@ public class BrokenFan extends Failure {
 		Set<NetworkElement> affectedElements = this.getAffectedElements().keySet();
 		boolean solved = false;
 		for (NetworkElement element : affectedElements) {
-			if (element instanceof Computer) {
+			if (element instanceof Client) {
 //				double temp = (Double) element.getProperty(Computer.PROPERTY_TEMPERATURE);
-				String power = (String) element.getProperty(Computer.PROPERTY_POWER);
+//				String power = (String) element.getProperty(Computer.PROPERTY_POWER);
 //				if (temp<90 || power.equals("OFF")) {
 //					solved = true;
 //				} else {

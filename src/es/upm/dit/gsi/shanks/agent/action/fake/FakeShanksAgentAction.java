@@ -14,10 +14,10 @@ import es.upm.dit.gsi.shanks.agent.fake.FakeShanksAgent;
 import es.upm.dit.gsi.shanks.model.element.NetworkElement;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.failure.Failure;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
 import es.upm.dit.gsi.shanks.model.han.element.device.Monitor;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 
 public class FakeShanksAgentAction extends JasonShanksAgentAction {
 
@@ -43,15 +43,15 @@ public class FakeShanksAgentAction extends JasonShanksAgentAction {
 		Failure f = (Failure) failures.toArray()[random];
 		HashMap<NetworkElement, String> elements = f.getAffectedElements();
 		for (NetworkElement element : elements.keySet()) {
-			if (element instanceof Computer) {
+			if (element instanceof Client) {
 				try {
-					element.setCurrentStatus(Computer.STATUS_ON);
+					element.setCurrentStatus(Client.STATUS_ON);
 				} catch (UnsupportedNetworkElementStatusException e) {
 					e.printStackTrace();
 				}
-			} else if (element instanceof ADSLConnection) {
+			} else if (element instanceof Connection) {
 				try {
-					element.setCurrentStatus(ADSLConnection.STATUS_CONNECTED);
+					element.setCurrentStatus(Connection.STATUS_CONNECTED);
 				} catch (UnsupportedNetworkElementStatusException e) {
 					e.printStackTrace();
 				}

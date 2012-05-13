@@ -15,7 +15,7 @@ import es.upm.dit.gsi.shanks.exception.DuplicatedAgentIDException;
 import es.upm.dit.gsi.shanks.model.adsl.scenario.ADSLAccesNetworkScenario;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.scenario.ComplexScenario;
 import es.upm.dit.gsi.shanks.model.scenario.Scenario;
 import es.upm.dit.gsi.shanks.model.scenario.exception.DuplicatedIDException;
@@ -102,19 +102,19 @@ public class TutorialComplexSimulation extends ShanksSimulation {
 		ComplexScenario complexScenario = (ComplexScenario) this.getScenario();
 		try {
 			ShanksAgent tempAgentHAN1 = new TemperatureWatcherAgent(
-					"TempAgentHAN1", (Computer) complexScenario.getScenario(
+					"TempAgentHAN1", (Client) complexScenario.getScenario(
 							"HAN1").getNetworkElement("PC"));
 			this.registerShanksAgent((ShanksAgent) tempAgentHAN1);
 			ShanksAgent tempAgentHAN2 = new TemperatureWatcherAgent(
-					"TempAgentHAN2", (Computer) complexScenario.getScenario(
+					"TempAgentHAN2", (Client) complexScenario.getScenario(
 							"HAN2").getNetworkElement("PC"));
 			this.registerShanksAgent((ShanksAgent) tempAgentHAN2);
 			ShanksAgent tempAgentHAN3 = new TemperatureWatcherAgent(
-					"TempAgentHAN3", (Computer) complexScenario.getScenario(
+					"TempAgentHAN3", (Client) complexScenario.getScenario(
 							"HAN3").getNetworkElement("PC"));
 			this.registerShanksAgent((ShanksAgent) tempAgentHAN3);
 			ShanksAgent tempAgentHAN4 = new TemperatureWatcherAgent(
-					"TempAgentHAN4", (Computer) complexScenario.getScenario(
+					"TempAgentHAN4", (Client) complexScenario.getScenario(
 							"HAN4").getNetworkElement("PC"));
 			this.registerShanksAgent((ShanksAgent) tempAgentHAN4);
 

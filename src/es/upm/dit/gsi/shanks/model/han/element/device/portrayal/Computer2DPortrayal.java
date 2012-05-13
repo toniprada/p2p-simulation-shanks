@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import sim.portrayal.DrawInfo2D;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.device.portrayal.Device2DPortrayal;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 
 /**
  * @author a.carrera
@@ -33,11 +33,11 @@ public class Computer2DPortrayal extends Device2DPortrayal {
         final double height = 10;
 
         String status = device.getCurrentStatus();
-        if (status.equals(Computer.STATUS_ON)) {
+        if (status.equals(Client.STATUS_ON)) {
             graphics.setColor(Color.green);
-        } else if (status.equals(Computer.STATUS_OFF)) {
+        } else if (status.equals(Client.STATUS_OFF)) {
             graphics.setColor(Color.white);
-        } else if (status.equals(Computer.STATUS_WAITING)) {
+        } else if (status.equals(Client.STATUS_OVERLOADED)) {
         	graphics.setColor(Color.gray);
         }
 

@@ -14,7 +14,7 @@ import es.upm.dit.gsi.shanks.agent.portrayal.BoyAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.agent.portrayal.CatAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.agent.portrayal.MotherAgent2DPortrayal;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Computer2DPortrayal;
 import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Server2DPortrayal;
@@ -95,7 +95,7 @@ public class HANScenario2DPortrayal extends Scenario2DPortrayal {
         ContinuousPortrayal2D devicePortrayal = (ContinuousPortrayal2D) this.getPortrayals().get(Scenario2DPortrayal.MAIN_DISPLAY_ID).get(ScenarioPortrayal.DEVICES_PORTRAYAL);
         NetworkPortrayal2D networkPortrayal = (NetworkPortrayal2D) this.getPortrayals().get(Scenario2DPortrayal.MAIN_DISPLAY_ID).get(ScenarioPortrayal.LINKS_PORTRAYAL);
                 
-        devicePortrayal.setPortrayalForClass(Computer.class, new Computer2DPortrayal());
+        devicePortrayal.setPortrayalForClass(Client.class, new Computer2DPortrayal());
         devicePortrayal.setPortrayalForClass(Server.class, new Server2DPortrayal());
         networkPortrayal.setPortrayalForAll(new Link2DPortrayalChooser());
         

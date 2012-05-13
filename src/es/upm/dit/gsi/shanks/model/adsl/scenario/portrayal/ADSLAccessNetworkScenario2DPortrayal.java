@@ -18,7 +18,7 @@ import es.upm.dit.gsi.shanks.model.adsl.element.device.portrayal.ADSLModem2DPort
 import es.upm.dit.gsi.shanks.model.adsl.element.device.portrayal.DSLAM2DPortrayal;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
 import es.upm.dit.gsi.shanks.model.han.element.device.Monitor;
 import es.upm.dit.gsi.shanks.model.han.element.device.portrayal.Computer2DPortrayal;
@@ -94,7 +94,7 @@ public class ADSLAccessNetworkScenario2DPortrayal extends ComplexScenario2DPortr
         NetworkPortrayal2D networkPortrayal = (NetworkPortrayal2D) this.getPortrayals().get(Scenario2DPortrayal.MAIN_DISPLAY_ID).get(ScenarioPortrayal.LINKS_PORTRAYAL);
         devicePortrayal.setPortrayalForClass(DSLAM.class, new DSLAM2DPortrayal());
         devicePortrayal.setPortrayalForClass(ADSLModem.class, new ADSLModem2DPortrayal());
-        devicePortrayal.setPortrayalForClass(Computer.class, new Computer2DPortrayal());
+        devicePortrayal.setPortrayalForClass(Client.class, new Computer2DPortrayal());
         devicePortrayal.setPortrayalForClass(Monitor.class, new Monitor2DPortrayal());
         devicePortrayal.setPortrayalForClass(EthernetRouter.class, new EthernetRouter2DPortrayal());
         networkPortrayal.setPortrayalForAll(new Link2DPortrayalChooser());

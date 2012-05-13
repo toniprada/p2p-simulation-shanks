@@ -21,9 +21,9 @@ import es.upm.dit.gsi.shanks.model.adsl.element.device.ADSLModem;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario3DPortrayal;
 
@@ -116,20 +116,20 @@ public class BoyAgent extends SimpleShanksAgent
 								.getDistanceTo(simulation, this, o);
 						if (distance < 2) {
 							Device nearDevice = (Device) o;
-							if (nearDevice instanceof Computer
+							if (nearDevice instanceof Client
 									|| nearDevice instanceof EthernetRouter) {
 								List<Link> links = nearDevice.getLinks();
 								for (Link link : links) {
-									if (link instanceof ADSLConnection) {
+									if (link instanceof Connection) {
 										String status = link.getCurrentStatus();
 										if (status
-												.equals(ADSLConnection.STATUS_DISCONNECTED)) {
-											this.repairEthernetCable((ADSLConnection) link);
+												.equals(Connection.STATUS_DISCONNECTED)) {
+											this.repairEthernetCable((Connection) link);
 											break;
 										}
 									}
 								}
-								if (nearDevice instanceof Computer) {
+								if (nearDevice instanceof Client) {
 									this.repairComputer(nearDevice);
 									break;
 								} else if (nearDevice instanceof EthernetRouter) {
@@ -290,11 +290,11 @@ public class BoyAgent extends SimpleShanksAgent
 	 * 
 	 * @param link
 	 */
-	private void repairEthernetCable(ADSLConnection link) {
+	private void repairEthernetCable(Connection link) {
 		try {
 			logger.warning("The cat is biting the link " + link.getID()
 					+ "!!!!");
-			link.setCurrentStatus(ADSLConnection.STATUS_CONNECTED);
+			link.setCurrentStatus(Connection.STATUS_CONNECTED);
 		} catch (Exception e) {
 			logger.severe("Exception when cat is trying to bite the link: "
 					+ e.getMessage());
@@ -307,7 +307,7 @@ public class BoyAgent extends SimpleShanksAgent
 	 * @param nearDevice
 	 */
 	private void repairComputer(Device nearDevice) {
-		try {
+//		try {
 //			if (((String) nearDevice.getProperty(Computer.PROPERTY_POWER))
 //					.equals("OFF")
 //					|| (Double) nearDevice
@@ -316,14 +316,14 @@ public class BoyAgent extends SimpleShanksAgent
 //				nearDevice.changeProperty(Computer.PROPERTY_TEMPERATURE, 15.0);
 //			}
 //	
-			if (((String) nearDevice.getProperty(Computer.PROPERTY_CONNECTION))
-					.equals("IP NOK")) {
-				nearDevice
-						.changeProperty(Computer.PROPERTY_CONNECTION, "IP OK");
-			}
-		} catch (UnsupportedNetworkElementStatusException e) {
-			logger.severe(e.getMessage());
-		}
+//			if (((String) nearDevice.getProperty(Computer.PROPERTY_CONNECTION))
+//					.equals("IP NOK")) {
+//				nearDevice
+//						.changeProperty(Computer.PROPERTY_CONNECTION, "IP OK");
+//			}
+//		} catch (UnsupportedNetworkElementStatusException e) {
+//			logger.severe(e.getMessage());
+//		}
 	}
 
 	/**

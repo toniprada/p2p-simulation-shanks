@@ -7,7 +7,7 @@ import java.util.Set;
 
 import es.upm.dit.gsi.shanks.model.element.NetworkElement;
 import es.upm.dit.gsi.shanks.model.failure.Failure;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.EthernetRouter;
 
 /**
@@ -30,8 +30,8 @@ public class NoIPFailure extends Failure {
 	public void addPossibleAffectedElements() {
 		this.addPossibleAffectedElements(EthernetRouter.class,
 				EthernetRouter.STATUS_NODHCP);
-		this.addPossibleAffectedElements(Computer.class,
-				Computer.STATUS_WAITING);
+		this.addPossibleAffectedElements(Client.class,
+				Client.STATUS_OVERLOADED);
 	}
 
 	/*
@@ -53,16 +53,16 @@ public class NoIPFailure extends Failure {
 					resolved = false;
 					break;
 				}
-			} else if (element instanceof Computer) {
-				String connection = (String) element
-						.getProperty(Computer.PROPERTY_CONNECTION);
-				if (connection.equals("IP OK")) {
-					resolved = true;
-				} else {
-					resolved = false;
-					break;
-				}
-
+			} else if (element instanceof Client) {
+//				String connection = (String) element
+//						.getProperty(Computer.PROPERTY_CONNECTION);
+//				if (connection.equals("IP OK")) {
+//					resolved = true;
+//				} else {
+//					resolved = false;
+//					break;
+//				}
+//
 			}
 		}
 		return resolved;

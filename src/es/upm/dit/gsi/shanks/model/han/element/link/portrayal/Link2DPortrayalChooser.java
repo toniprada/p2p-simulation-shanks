@@ -10,7 +10,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.network.SimpleEdgePortrayal2D;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.element.link.portrayal.Link2DPortrayal;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 
 /**
  * @author a.carrera
@@ -32,8 +32,8 @@ public class Link2DPortrayalChooser extends Link2DPortrayal {
         Link link = (Link) e.getInfo();
         SimpleEdgePortrayal2D p;
         
-        if (link instanceof ADSLConnection) {
-        	p = new ADSLCable2DPortrayal();
+        if (link instanceof Connection) {
+        	p = new Cable2DPortrayal();
         } else {
         	p = new SimpleEdgePortrayal2D(); //
         }

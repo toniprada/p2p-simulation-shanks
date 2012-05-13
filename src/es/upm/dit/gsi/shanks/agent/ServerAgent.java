@@ -10,7 +10,7 @@ import es.upm.dit.gsi.shanks.ShanksSimulation;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
 import es.upm.dit.gsi.shanks.model.han.element.device.Server;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 
 /**
  * @author a.carrera
@@ -46,14 +46,27 @@ public class ServerAgent extends SimpleShanksAgent {
 			double bw = 0.0;
 			List<Link> links = server.getLinks();
 			for (Link link : links) {
-				ADSLConnection l = (ADSLConnection) link;
-				bw += l.getUsage();
+				Connection l = (Connection) link;
+				bw += l.getUsage();		
 			}
 			if ((Server.MAX_BANDWIDTH - bw) > Server.THRESHOLD) {
 				server.updateStatusTo(Server.STATUS_OK);
+				for (Link link : links) {
+					Connection l = (Connection) link;
+					if (l.getCurrentStatus().equals(Connection.STATUS_OVERLOADED)) {
+						l.updateStatusTo(Connection.STATUS_CONNECTED);
+					}
+				}
 			} else {
 				server.updateStatusTo(Server.STATUS_OVERLOADED);
-			}
+				for (Link link : links) {
+					Connection l = (Connection) link;
+					if (l.getCurrentStatus().equals(
+							Connection.STATUS_CONNECTED)) {
+						l.updateStatusTo(Connection.STATUS_OVERLOADED);
+					}
+				}
+			}	
 			logger.info("BW" + bw);
 		} catch (UnsupportedNetworkElementStatusException e) {
 			logger.severe(e.getMessage());

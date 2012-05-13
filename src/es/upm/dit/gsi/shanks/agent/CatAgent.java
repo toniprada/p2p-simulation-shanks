@@ -17,7 +17,7 @@ import es.upm.dit.gsi.shanks.agent.capability.perception.PercipientShanksAgent;
 import es.upm.dit.gsi.shanks.agent.capability.perception.ShanksAgentPerceptionCapability;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario3DPortrayal;
 
@@ -236,7 +236,7 @@ public class CatAgent extends SimpleShanksAgent implements MobileShanksAgent, Pe
 	 * 
 	 * @param link
 	 */
-	private void bitesLink(ADSLConnection link) {
+	private void bitesLink(Connection link) {
 		try {
 			logger.warning("The cat is biting the link " + link.getID()
 					+ "!!!!");

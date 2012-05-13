@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import es.upm.dit.gsi.shanks.ShanksSimulation;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 
 /**
  * @author a.carrera
@@ -17,14 +17,14 @@ public class TemperatureWatcherAgent extends SimpleShanksAgent {
 
 	private Logger logger = Logger.getLogger(TemperatureWatcherAgent.class.getName());
 
-	private Computer computer;
+	private Client computer;
 
 	/**
      * 
      */
 	private static final long serialVersionUID = 263836274462865563L;
 
-	public TemperatureWatcherAgent(String id, Computer computer) {
+	public TemperatureWatcherAgent(String id, Client computer) {
 		super(id);
 		this.computer = computer;
 	}

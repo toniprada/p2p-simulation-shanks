@@ -10,7 +10,7 @@ import org.jfree.util.Log;
 import es.upm.dit.gsi.shanks.model.element.device.Device;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.element.link.Link;
-import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 
 /**
  * @author a.carrera
@@ -19,7 +19,7 @@ import es.upm.dit.gsi.shanks.model.han.element.link.ADSLConnection;
 public class Server extends Device {
 	
 	public static final double STREAMING_BANDWIDTH = 1.0;
-	public static final double MAX_BANDWIDTH = 3.0;
+	public static final double MAX_BANDWIDTH = 30.0;
 	public static final double THRESHOLD = 0.3;
 
 	public static final String STATUS_OK = "OK";

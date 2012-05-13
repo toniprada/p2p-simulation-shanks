@@ -10,7 +10,7 @@ import es.upm.dit.gsi.shanks.model.element.NetworkElement;
 import es.upm.dit.gsi.shanks.model.element.exception.TooManyConnectionException;
 import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementStatusException;
 import es.upm.dit.gsi.shanks.model.failure.Failure;
-import es.upm.dit.gsi.shanks.model.han.element.device.Computer;
+import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.Server;
 import es.upm.dit.gsi.shanks.model.han.failure.BrokenFan;
 import es.upm.dit.gsi.shanks.model.han.failure.NoIPFailure;
@@ -49,12 +49,12 @@ public class HANScenario extends Scenario {
 	public void addNetworkElements()
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedIDException {
-		Computer computer1 = new Computer("PC1",Computer.STATUS_ON);
-		Computer computer2 = new Computer("PC2",Computer.STATUS_ON);
-		Computer computer3 = new Computer("PC3",Computer.STATUS_ON);
-		Computer computer4 = new Computer("PC4",Computer.STATUS_ON);
-		Computer computer5 = new Computer("PC5",Computer.STATUS_ON);
-		Computer computer6 = new Computer("PC6",Computer.STATUS_ON);
+		Client computer1 = new Client("PC1",Client.STATUS_ON);
+		Client computer2 = new Client("PC2",Client.STATUS_ON);
+		Client computer3 = new Client("PC3",Client.STATUS_ON);
+		Client computer4 = new Client("PC4",Client.STATUS_ON);
+		Client computer5 = new Client("PC5",Client.STATUS_ON);
+		Client computer6 = new Client("PC6",Client.STATUS_ON);
 		Server server = new Server("Server", Server.STATUS_OK);
 
 //		ADSLCable cableComputer12 = new P2pADSLConnection("Cable 12");
