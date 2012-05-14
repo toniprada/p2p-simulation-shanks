@@ -115,17 +115,17 @@ public class TutorialSimulation extends ShanksSimulation {
 		} catch (ScenarioNotFoundException e) {
 		}
 		
-		UserAgent userAgent1 = new UserAgent("user1", (Client) this.getScenario().getNetworkElement("PC1"), s.getDeviceLocation("PC1"));
+		UserAgent userAgent1 = new UserAgent("user1", (Client) this.getScenario().getNetworkElement("C1"), s.getDeviceLocation("C1"));
 		this.registerShanksAgent(userAgent1);
-		UserAgent userAgent2 = new UserAgent("user2", (Client) this.getScenario().getNetworkElement("PC2"), s.getDeviceLocation("PC2"));
+		UserAgent userAgent2 = new UserAgent("user2", (Client) this.getScenario().getNetworkElement("C2"), s.getDeviceLocation("C2"));
 		this.registerShanksAgent(userAgent2);
-		UserAgent userAgent3 = new UserAgent("user3", (Client) this.getScenario().getNetworkElement("PC3"), s.getDeviceLocation("PC3"));
+		UserAgent userAgent3 = new UserAgent("user3", (Client) this.getScenario().getNetworkElement("C3"), s.getDeviceLocation("C3"));
 		this.registerShanksAgent(userAgent3);
-		UserAgent userAgent4 = new UserAgent("user4", (Client) this.getScenario().getNetworkElement("PC4"), s.getDeviceLocation("PC4"));
+		UserAgent userAgent4 = new UserAgent("user4", (Client) this.getScenario().getNetworkElement("C4"), s.getDeviceLocation("C4"));
 		this.registerShanksAgent(userAgent4);
-		UserAgent userAgent5 = new UserAgent("user5", (Client) this.getScenario().getNetworkElement("PC5"), s.getDeviceLocation("PC5"));
+		UserAgent userAgent5 = new UserAgent("user5", (Client) this.getScenario().getNetworkElement("C5"), s.getDeviceLocation("C5"));
 		this.registerShanksAgent(userAgent5);
-		UserAgent userAgent6 = new UserAgent("user6", (Client) this.getScenario().getNetworkElement("PC6"), s.getDeviceLocation("PC6"));
+		UserAgent userAgent6 = new UserAgent("user6", (Client) this.getScenario().getNetworkElement("C6"), s.getDeviceLocation("C6"));
 		this.registerShanksAgent(userAgent6);
 		
 		ServerAgent serverAgent = new ServerAgent("server", (Server) this.getScenario().getNetworkElement("Server"));

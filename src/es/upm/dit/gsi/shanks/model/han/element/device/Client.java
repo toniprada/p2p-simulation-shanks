@@ -21,7 +21,7 @@ public class Client extends Device {
 //	public static final String PROPERTY_POWER = "Power";
 //	public static final String PROPERTY_CONNECTION = "Connection";
 
-	public Client(String id, String initialState)
+	public Client(String id)
 			throws UnsupportedNetworkElementStatusException {
 		super(id, STATUS_OFF, false);
 	}
@@ -92,5 +92,7 @@ public class Client extends Device {
 		this.addPossibleStatus(Client.STATUS_ON);
 		this.addPossibleStatus(Client.STATUS_OFF);
 	}
+	
+
 
 }

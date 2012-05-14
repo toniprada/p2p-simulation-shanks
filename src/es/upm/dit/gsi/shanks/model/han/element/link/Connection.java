@@ -11,6 +11,8 @@ import es.upm.dit.gsi.shanks.model.element.link.Link;
  * 
  */
 public class Connection extends Link {
+	
+	public static final double UPLOAD = 0.3;
 
 	public static final String STATUS_CONNECTED = "CONNECTED";
 	public static final String STATUS_DISCONNECTED = "DISCONNECTED";

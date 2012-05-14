@@ -12,6 +12,7 @@ import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementSt
 import es.upm.dit.gsi.shanks.model.failure.Failure;
 import es.upm.dit.gsi.shanks.model.han.element.device.Client;
 import es.upm.dit.gsi.shanks.model.han.element.device.Server;
+import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 import es.upm.dit.gsi.shanks.model.han.failure.BrokenFan;
 import es.upm.dit.gsi.shanks.model.han.failure.NoIPFailure;
 import es.upm.dit.gsi.shanks.model.han.failure.ServerOverload;
@@ -49,35 +50,35 @@ public class HANScenario extends Scenario {
 	public void addNetworkElements()
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedIDException {
-		Client computer1 = new Client("PC1",Client.STATUS_ON);
-		Client computer2 = new Client("PC2",Client.STATUS_ON);
-		Client computer3 = new Client("PC3",Client.STATUS_ON);
-		Client computer4 = new Client("PC4",Client.STATUS_ON);
-		Client computer5 = new Client("PC5",Client.STATUS_ON);
-		Client computer6 = new Client("PC6",Client.STATUS_ON);
+		Client computer1 = new Client("C1");
+		Client computer2 = new Client("C2");
+		Client computer3 = new Client("C3");
+		Client computer4 = new Client("C4");
+		Client computer5 = new Client("C5");
+		Client computer6 = new Client("C6");
 		Server server = new Server("Server", Server.STATUS_OK);
 
-//		ADSLCable cableComputer12 = new P2pADSLConnection("Cable 12");
-//		ADSLCable cableComputer13 = new P2pADSLConnection("Cable 13");
-//		ADSLCable cableComputer14 = new P2pADSLConnection("Cable 14");
-//		ADSLCable cableComputer15 = new P2pADSLConnection("Cable 15");
-//		ADSLCable cableComputer16 = new P2pADSLConnection("Cable 16");
-//		ADSLCable cableComputer23 = new P2pADSLConnection("Cable 23");
-//		ADSLCable cableComputer24 = new P2pADSLConnection("Cable 24");
-//		ADSLCable cableComputer25 = new P2pADSLConnection("Cable 25");
-//		ADSLCable cableComputer26 = new P2pADSLConnection("Cable 26");
-//		ADSLCable cableComputer34 = new P2pADSLConnection("Cable 34");
-//		ADSLCable cableComputer35 = new P2pADSLConnection("Cable 35");
-//		ADSLCable cableComputer36 = new P2pADSLConnection("Cable 36");
-//		ADSLCable cableComputer45 = new P2pADSLConnection("Cable 45");
-//		ADSLCable cableComputer46 = new P2pADSLConnection("Cable 46");
-//		ADSLCable cableComputer56 = new P2pADSLConnection("Cable 56");
-//		ADSLCable cableServer1 = new ServerADSLConnection("Cable S1");
-//		ADSLCable cableServer2 = new ServerADSLConnection("Cable S2");
-//		ADSLCable cableServer3 = new ServerADSLConnection("Cable S3");
-//		ADSLCable cableServer4 = new ServerADSLConnection("Cable S4");
-//		ADSLCable cableServer5 = new ServerADSLConnection("Cable S5");
-//		ADSLCable cableServer6 = new ServerADSLConnection("Cable S6");
+//		Connection cableComputer12 = new Connection("C1-C2");
+//		Connection cableComputer13 = new Connection("C1-C3");
+//		Connection cableComputer14 = new Connection("C1-C4");
+//		Connection cableComputer15 = new Connection("C1-C5");
+//		Connection cableComputer16 = new Connection("C1-C6");
+//		Connection cableComputer23 = new Connection("C2-C3");
+//		Connection cableComputer24 = new Connection("C2-C4");
+//		Connection cableComputer25 = new Connection("C2-C5");
+//		Connection cableComputer26 = new Connection("C2-C6");
+//		Connection cableComputer34 = new Connection("C3-C4");
+//		Connection cableComputer35 = new Connection("C3-C5");
+//		Connection cableComputer36 = new Connection("C3-C6");
+//		Connection cableComputer45 = new Connection("C4-C5");
+//		Connection cableComputer46 = new Connection("C4-C6");
+//		Connection cableComputer56 = new Connection("C5-C6");
+//		Connection cableServer1 = new Connection("C1-Server");
+//		Connection cableServer2 = new Connection("C2-Server");
+//		Connection cableServer3 = new Connection("C3-Server");
+//		Connection cableServer4 = new Connection("C4-Server");
+//		Connection cableServer5 = new Connection("C5-Server");
+//		Connection cableServer6 = new Connection("C6-Server");
 //
 //		computer1.connectToDeviceWithLink(computer2, cableComputer12);
 //		computer1.connectToDeviceWithLink(computer3, cableComputer13);
@@ -154,8 +155,8 @@ public class HANScenario extends Scenario {
 //        NetworkElement router = this.getNetworkElement("Router");
 //        this.addPossibleFailure(NoIPFailure.class, router);
         
-        NetworkElement pc = this.getNetworkElement("PC1");
-        this.addPossibleFailure(BrokenFan.class, pc);
+//        NetworkElement pc = this.getNetworkElement("C1");
+//        this.addPossibleFailure(BrokenFan.class, pc);
 	}
 
 	/*
