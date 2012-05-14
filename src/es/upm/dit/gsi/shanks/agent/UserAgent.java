@@ -91,7 +91,6 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 				if (status.equals(Client.STATUS_OFF)) {
 					computer.setCurrentStatus(Client.STATUS_ON);
 					connectToServer(simulation);
-					connectToNeighbours(simulation);
 				} else {
 					computer.setCurrentStatus(Client.STATUS_OFF);
 					closeAllConnections();
@@ -120,18 +119,18 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 							"overload", "true");
 				} else {
 					ShanksAgentBayesianReasoningCapability.addEvidence(this,
-							"overload", "true");
+							"overload", "false");
 				}
 				//TODO 
 				ShanksAgentBayesianReasoningCapability.addEvidence(this,
-						"network", "mobile");
+						"network", "desktop");
 			}
 			HashMap<String, HashMap<String, Float>> hypotheses = ShanksAgentBayesianReasoningCapability
 					.getAllHypotheses(this);
 			// Choose action
-			if (hypotheses.get("EnableP2PAction").get("true") >= 0.6) {
+//			if (hypotheses.get("EnableP2PAction").get("true") >= 0.7) {
 				connectToNeighbours(simulation);
-			}
+//			}
 		} catch (UnsupportedNetworkElementStatusException e) {
 			logger.severe(e.getMessage());
 		} catch (TooManyConnectionException e) {
@@ -176,35 +175,52 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
-		Bag objects = ShanksAgentPerceptionCapability.getPercepts(simulation,
-				this);
+		// Connection of the client
 		int connections = 0;
+		List<Link> links = computer.getLinks();
+		for (Link l : links) {
+			if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
+				connections++;
+			}
+		}
+		Bag objects = ShanksAgentPerceptionCapability.getPercepts(simulation,this);
 		for (Object o : objects) {
 			if (o instanceof Client) {
-				Client neighbour = (Client) o;
-				if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)) {
-					String linkId = computer.getID() + "-" + neighbour.getID();
-					Link link = getLinkIfExists(computer, linkId);
-					if (link != null) {
-						link.setCurrentStatus(Connection.STATUS_CONNECTED);
-					} else {
-						try {
-							link = new Connection(linkId);
-							List<Device> devices = link.getLinkedDevices();
-							computer.connectToDeviceWithLink(neighbour, link);
-							simulation.getScenario().addNetworkElement(link);
-							Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
-							p.drawLink(link);
-						} catch (DuplicatedIDException e) {
-							logger.severe(e.getMessage());
+				if (connections < Client.MAX_CONNECTIONS) {
+					Client neighbour = (Client) o;
+					if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)) {
+						// Connections of the destiny
+						int neighbourConnections = 0;
+						links = neighbour.getLinks();
+						for (Link l : links) {
+							if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
+								neighbourConnections++;
+							}
+						}
+						if (neighbourConnections < Client.MAX_CONNECTIONS) {
+							String linkId = computer.getID() + "-" + neighbour.getID();
+							Link link = getLinkIfExists(computer, linkId);
+							if (link != null) {
+								link.setCurrentStatus(Connection.STATUS_CONNECTED);
+							} else {
+								try {
+									link = new Connection(linkId);
+									computer.connectToDeviceWithLink(neighbour,link);
+									simulation.getScenario().addNetworkElement(link);
+									Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
+									p.drawLink(link);
+								} catch (DuplicatedIDException e) {
+									logger.severe(e.getMessage());
+								}
+							}
+							connections++;
 						}
 					}
-					connections++;
-					if (connections >=2) {
-						break;
-					}
+				} else {
+					break;
 				}
 			}
+
 		}
 	}
 	

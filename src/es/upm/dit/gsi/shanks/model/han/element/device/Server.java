@@ -19,7 +19,7 @@ import es.upm.dit.gsi.shanks.model.han.element.link.Connection;
 public class Server extends Device {
 	
 	public static final double STREAMING_BANDWIDTH = 1.0;
-	public static final double MAX_BANDWIDTH = 30.0;
+	public static final double MAX_BANDWIDTH = 1.0;
 	public static final double THRESHOLD = 0.3;
 
 	public static final String STATUS_OK = "OK";
