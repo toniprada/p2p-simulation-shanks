@@ -55,19 +55,19 @@ public class TutorialSimulation2DGUI extends ShanksSimulation2DGUI {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void addCharts(Scenario2DPortrayal arg0)
-			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
-			ScenarioNotFoundException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void locateFrames(Scenario2DPortrayal arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+//
+//	@Override
+//	public void addCharts(Scenario2DPortrayal arg0)
+//			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
+//			ScenarioNotFoundException {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void locateFrames(Scenario2DPortrayal arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }

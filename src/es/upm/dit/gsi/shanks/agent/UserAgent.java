@@ -34,7 +34,8 @@ import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortra
  * @author a.carrera
  * 
  */
-public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgent, BayesianReasonerShanksAgent {
+public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgent {
+//, BayesianReasonerShanksAgent {
 	
 	private static final long serialVersionUID = 263836274462865563L;
 	public static final double PERCEPTION_RANGUE = 50.0;
@@ -50,11 +51,11 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		super(id);
 		this.computer = computer;
 		this.location = location;
-		try {
-			ShanksAgentBayesianReasoningCapability.loadNetwork(this);
-		} catch (Exception e) {
-			logger.severe(e.getMessage());
-		}
+//		try {
+//			ShanksAgentBayesianReasoningCapability.loadNetwork(this);
+//		} catch (Exception e) {
+//			logger.severe(e.getMessage());
+//		}
 	}
 
 	/*
@@ -96,37 +97,37 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					closeAllConnections();
 				}
 			}
-			String status = computer.getCurrentStatus();
-			if (status.equals(Client.STATUS_ON)) {
-				List<Link> links = computer.getLinks();
-				for (Link link : links) {
-					if (link.getID().contains("Server")) {
-						String s = link.getCurrentStatus();
-						if (s.equals(Connection.STATUS_OVERLOADED)) {
-							computer.updateStatusTo(Client.STATUS_OVERLOADED);
-						} else if (s.equals(Connection.STATUS_CONNECTED)) {
-							computer.updateStatusTo(Client.STATUS_ON);
-						}
-					}
-				}
-			}
+//			String status = computer.getCurrentStatus();
+//			if (status.equals(Client.STATUS_ON)) {
+//				List<Link> links = computer.getLinks();
+//				for (Link link : links) {
+//					if (link.getID().contains("Server")) {
+//						String s = link.getCurrentStatus();
+//						if (s.equals(Connection.STATUS_OVERLOADED)) {
+//							computer.updateStatusTo(Client.STATUS_OVERLOADED);
+//						} else if (s.equals(Connection.STATUS_CONNECTED)) {
+//							computer.updateStatusTo(Client.STATUS_ON);
+//						}
+//					}
+//				}
+//			}
 			// Clear all percepts
-			ShanksAgentBayesianReasoningCapability.clearEvidences(this);
-			status = computer.getCurrentStatus();
-			if (!status.equals(Client.STATUS_OFF)) {
-				if (status.equals(Client.STATUS_OVERLOADED)) {
-					ShanksAgentBayesianReasoningCapability.addEvidence(this,
-							"overload", "true");
-				} else {
-					ShanksAgentBayesianReasoningCapability.addEvidence(this,
-							"overload", "false");
-				}
-				//TODO 
-				ShanksAgentBayesianReasoningCapability.addEvidence(this,
-						"network", "desktop");
-			}
-			HashMap<String, HashMap<String, Float>> hypotheses = ShanksAgentBayesianReasoningCapability
-					.getAllHypotheses(this);
+//			ShanksAgentBayesianReasoningCapability.clearEvidences(this);
+//			status = computer.getCurrentStatus();
+//			if (!status.equals(Client.STATUS_OFF)) {
+//				if (status.equals(Client.STATUS_OVERLOADED)) {
+//					ShanksAgentBayesianReasoningCapability.addEvidence(this,
+//							"overload", "true");
+//				} else {
+//					ShanksAgentBayesianReasoningCapability.addEvidence(this,
+//							"overload", "false");
+//				}
+//				//TODO 
+//				ShanksAgentBayesianReasoningCapability.addEvidence(this,
+//						"network", "desktop");
+//			}
+//			HashMap<String, HashMap<String, Float>> hypotheses = ShanksAgentBayesianReasoningCapability
+//					.getAllHypotheses(this);
 			// Choose action
 //			if (hypotheses.get("EnableP2PAction").get("true") >= 0.7) {
 				connectToNeighbours(simulation);
@@ -148,8 +149,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
-		String linkId = computer.getID() + "-Server";
-		Connection link = (Connection) getLinkIfExists(computer, linkId);
+		Connection link = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
 		if (link != null) {
 			link.setCurrentStatus(Connection.STATUS_CONNECTED);
 			link.changeUsage(+Server.STREAMING_BANDWIDTH);
@@ -159,7 +159,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		} else {
 			try {
 				Device server = (Device) simulation.getScenario().getNetworkElement("Server");
-				link = new Connection(linkId);
+				link = new Connection(computer.getID() + "-Server");
 				computer.connectToDeviceWithLink(server, link);
 				link.changeUsage(+Server.STREAMING_BANDWIDTH);
 				simulation.getScenario().addNetworkElement(link);
@@ -176,36 +176,37 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
 		// Connection of the client
-		int connections = 0;
-		List<Link> links = computer.getLinks();
-		for (Link l : links) {
-			if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
-				connections++;
-			}
-		}
-		Bag objects = ShanksAgentPerceptionCapability.getPercepts(simulation,this);
+//		int connections = 0;
+//		List<Link> links = computer.getLinks();
+//		for (Link l : links) {
+//			if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
+//				connections++;
+//			}
+//		}
+		Bag objects = ShanksAgentPerceptionCapability.getPercepts(simulation, this);
 		for (Object o : objects) {
 			if (o instanceof Client) {
-				if (connections < Client.MAX_CONNECTIONS) {
+//				if (connections < Client.MAX_CONNECTIONS) {
 					Client neighbour = (Client) o;
-					if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)) {
-						// Connections of the destiny
-						int neighbourConnections = 0;
-						links = neighbour.getLinks();
-						for (Link l : links) {
-							if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
-								neighbourConnections++;
-							}
-						}
-						if (neighbourConnections < Client.MAX_CONNECTIONS) {
-							String linkId = computer.getID() + "-" + neighbour.getID();
-							Link link = getLinkIfExists(computer, linkId);
+					if (!neighbour.getID().equals(computer.getID()) 
+							&& !neighbour.getCurrentStatus().equals(Client.STATUS_OFF)) {
+//						// Connections of the destiny
+//						int neighbourConnections = 0;
+//						links = neighbour.getLinks();
+//						for (Link l : links) {
+//							if (!l.getCurrentStatus().equals(
+//									Connection.STATUS_DISCONNECTED)) {
+//								neighbourConnections++;
+//							}
+//						}
+//						if (neighbourConnections < Client.MAX_CONNECTIONS) {
+							Link link = getLinkIfExists(computer,computer.getID(), neighbour.getID());
 							if (link != null) {
 								link.setCurrentStatus(Connection.STATUS_CONNECTED);
 							} else {
 								try {
-									link = new Connection(linkId);
-									computer.connectToDeviceWithLink(neighbour,link);
+									link = new Connection(computer.getID() + "-" + neighbour.getID());
+									computer.connectToDeviceWithLink(neighbour, link);
 									simulation.getScenario().addNetworkElement(link);
 									Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
 									p.drawLink(link);
@@ -213,17 +214,18 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 									logger.severe(e.getMessage());
 								}
 							}
-							connections++;
-						}
+//							connections++;
+//						}
 					}
-				} else {
-					break;
-				}
+//				} else {
+//					break;
+//				}
 			}
 
 		}
 	}
 	
+
 	private void closeAllConnections() throws UnsupportedNetworkElementStatusException {
 		List<Link> links = computer.getLinks();
 		for (Link link : links) {
@@ -233,11 +235,15 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		}
 	}
 	
-	private Link getLinkIfExists(Device device, String linkId) {
+	private Link getLinkIfExists(Device device, String id1, String id2) {
+		String linkId1 = id1 + "-" + id2;
+		String linkId2 = id2 + "-" + id1;
 		List<Link> links = device.getLinks();
-		for (Link link : links) {
-			if (link.getID().equals(linkId)) {
-				return link;
+		for (Link l : links) {
+			if (l.getID().equals(linkId1)) {
+				return l;
+			} else if (l.getID().equals(linkId2)) {
+				return l;
 			}
 		}
 		return null;
@@ -253,22 +259,22 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	public double getPerceptionRange() {
 		return PERCEPTION_RANGUE;
 	}
-
-	@Override
-	public ProbabilisticNetwork getBayesianNetwork() {
-		return bn;
-	}
-
-	@Override
-	public String getBayesianNetworkFilePath() {
-		return "src/es/upm/dit/gsi/shanks/agent/user.net";
-	}
-
-	@Override
-	public void setBayesianNetwork(ProbabilisticNetwork bn) {
-		this.bn = bn;
-		
-	}
+//
+//	@Override
+//	public ProbabilisticNetwork getBayesianNetwork() {
+//		return bn;
+//	}
+//
+//	@Override
+//	public String getBayesianNetworkFilePath() {
+//		return "src/es/upm/dit/gsi/shanks/agent/user.net";
+//	}
+//
+//	@Override
+//	public void setBayesianNetwork(ProbabilisticNetwork bn) {
+//		this.bn = bn;
+//		
+//	}
 	
 	
 	
