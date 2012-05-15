@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/mason.16.jar"/>
 	<classpathentry kind="lib" path="lib/unbbayes-4.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/shanks-core-0.2.2-SNAPSHOT.jar" sourcepath="lib/shanks-core-0.2.2-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="lib/shanks-core-0.2.2-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/shanks-core-0.2.2-SNAPSHOT2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

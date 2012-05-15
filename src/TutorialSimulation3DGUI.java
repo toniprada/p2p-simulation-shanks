@@ -58,18 +58,18 @@ public class TutorialSimulation3DGUI extends ShanksSimulation3DGUI {
 		}
 	}
 
-//	@Override
-//	public void addCharts(Scenario3DPortrayal arg0)
-//			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
-//			ScenarioNotFoundException {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void locateFrames(Scenario3DPortrayal arg0) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public void addCharts(Scenario3DPortrayal arg0)
+			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
+			ScenarioNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void locateFrames(Scenario3DPortrayal arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

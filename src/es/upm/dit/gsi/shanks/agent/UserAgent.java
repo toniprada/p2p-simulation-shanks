@@ -3,9 +3,6 @@
  */
 package es.upm.dit.gsi.shanks.agent;
 
-import jason.asSemantics.Message;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -41,7 +38,6 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	public static final double PERCEPTION_RANGUE = 50.0;
 
 	private Logger logger = Logger.getLogger(UserAgent.class.getName());
-	private String serverState = Server.STATUS_OK;
 	private Client computer;
 	private Location location;
 	private ProbabilisticNetwork bn;
@@ -61,34 +57,12 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.upm.dit.gsi.shanks.agent.ShanksAgent#checkMail()
-	 */
-	@Override
-	public void checkMail() {
-		try {
-			Message pendingMessage = this.getInbox().get(0);
-			this.getInbox().remove(pendingMessage);
-			this.serverState = (String) pendingMessage.getPropCont();
-		} catch (Exception e) {
-			logger.fine("There is no message in the inbox of the agent " + this.getID());
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.upm.dit.gsi.shanks.agent.SimpleShanksAgent#executeReasoningCycle(es
-	 * .upm.dit.gsi.shanks.ShanksSimulation)
-	 */
 	@Override
 	public void executeReasoningCycle(ShanksSimulation simulation) {
 		Random r = new Random();
 		int rand = r.nextInt(1000);
 		try {
+			// Randomness to take some decisions
 			if (rand == 0) {
 				String status = computer.getCurrentStatus();
 				if (status.equals(Client.STATUS_OFF)) {
@@ -99,6 +73,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					closeAllConnections();
 				}
 			}
+			// State of the link to server
 			String status = computer.getCurrentStatus();
 			if (status.equals(Client.STATUS_ON)) {
 				String s = getLinkIfExists(computer, computer.getID(), "Server").getCurrentStatus();
@@ -108,7 +83,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					computer.updateStatusTo(Client.STATUS_ON);
 				}
 			}
-			// Check if any connection had been closed, 
+			// Check if any p2p connection has been closed, 
 			// in this case will be necessary to 
 			// increase the stream from the server
 			int numberOfLinks = 0;
@@ -127,34 +102,6 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 				}
 			} 
 			clientsConnected = numberOfLinks;
-//			// Rebuild connected clients
-
-//			List<Link> links = computer.getLinks();
-//			int n = links.size();
-//			for (Link link : links) {
-//			List<Link> links = computer.getLinks();
-//			int n = links.size();
-//			for (Link link : links) {
-//				List<Device> devices = link.getLinkedDevices();
-//				if (clientsConnected.contains(devices.get(0).getID() + "-"
-//						+ devices.get(1).getID())
-//						|| clientsConnected.contains(devices.get(1).getID()
-//								+ "-" + devices.get(0).getID())) {
-//					n--;
-//				}
-//			}
-//			n --; // There is a connection with the server
-//			if (n > 0) {
-//				Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
-//				linkServer.changeUsage(+(n*Connection.UPLOAD));
-//				// Rebuild connected clients list
-//				clientsConnected.clear();
-//				for (Link link : links) {
-//					if (!link.getID().contains("Server")) {
-//						clientsConnected.add(link.getID());
-//					}
-//				}
-//			}
 			// Clear all percepts
 			ShanksAgentBayesianReasoningCapability.clearEvidences(this);
 			status = computer.getCurrentStatus();
@@ -174,7 +121,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					.getAllHypotheses(this);
 			// Choose action
 			if (hypotheses.get("EnableP2PAction").get("true") >= 0.7) {
-				connectToNeighbours(simulation);
+				connectP2P(simulation);
 			}
 		} catch (UnsupportedNetworkElementStatusException e) {
 			e.printStackTrace();
@@ -195,9 +142,11 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			ScenarioNotFoundException {
 		Connection link = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
 		if (link != null) {
+			// Link already created, enable
 			link.setCurrentStatus(Connection.STATUS_CONNECTED);
 			link.changeUsage(+Server.STREAMING_BANDWIDTH);
 		} else {
+			// Link doesnt exit, create
 			try {
 				Device server = (Device) simulation.getScenario().getNetworkElement("Server");
 				link = new Connection(computer.getID() + "-Server");
@@ -212,12 +161,11 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		}
 	}
 
-	private void connectToNeighbours(ShanksSimulation simulation)
+	private void connectP2P(ShanksSimulation simulation)
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
-//		logger.info(computer.getID() + " connectToNeighbours");
-//		 Connection of the client
+		//	Number of connections that the client has established
 		int connections = 0;
 		List<Link> links = computer.getLinks();
 		for (Link l : links) {
@@ -225,48 +173,52 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 				connections++;
 			}
 		}
+		// Search for another clients around
 		Bag objects = ShanksAgentPerceptionCapability.getPercepts(simulation, this);
 		for (Object o : objects) {
 			if (o instanceof Client) {
+				// If we can establish more connections
 				if (connections < Client.MAX_CONNECTIONS) {
 					Client neighbour = (Client) o;
 					if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)
 							&& !neighbour.getID().equals(computer.getID())) {
-//						// Connections of the destiny
+						// Number of connections that the other client has established
 						int neighbourConnections = 0;
 						links = neighbour.getLinks();
 						for (Link l : links) {
-							if (!l.getCurrentStatus().equals(
-									Connection.STATUS_DISCONNECTED)) {
+							if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
 								neighbourConnections++;
 							}
 						}
+						// If it can establish more connections
 						if (neighbourConnections < Client.MAX_CONNECTIONS) {
 							Link link = getLinkIfExists(computer,
 									computer.getID(), neighbour.getID());
 							if (link != null) {
+								// Link exits
 								if (!link.getCurrentStatus().equals(Connection.STATUS_CONNECTED)) {
 									link.setCurrentStatus(Connection.STATUS_CONNECTED);
-									Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
-									if (linkServer != null) {
-										linkServer.changeUsage(-Connection.UPLOAD);
-										logger.info("1------------- " + computer.getID() + neighbour.getID());
-									}
+									Connection linkServer = (Connection) 
+											getLinkIfExists(computer, computer.getID(), "Server");
+									linkServer.changeUsage(-Connection.UPLOAD);
+									logger.info("1------------- " + 
+										computer.getID() + neighbour.getID());
 									connections++;
 									clientsConnected++;
 								}
 							} else {
+								// Link doesnt exits
 								try {
 									link = new Connection(computer.getID() + "-" + neighbour.getID());
 									computer.connectToDeviceWithLink(neighbour, link);
 									simulation.getScenario().addNetworkElement(link);
 									Scenario2DPortrayal p = (Scenario2DPortrayal) simulation.getScenarioPortrayal();
 									p.drawLink(link);
-									Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
-									if (linkServer != null) {
-										linkServer.changeUsage(-Connection.UPLOAD);
-										logger.info("2-------------- " + computer.getID() + neighbour.getID());
-									}
+									Connection linkServer = (Connection) getLinkIfExists(computer, 
+											computer.getID(), "Server");
+									linkServer.changeUsage(-Connection.UPLOAD);
+									logger.info("2-------------- " + computer.getID() + 
+											neighbour.getID());
 									connections++;
 									clientsConnected++;
 								} catch (DuplicatedIDException e) {
@@ -310,6 +262,16 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		return null;
 	}
 	
+	@Override
+	public void checkMail() {
+//		try {
+//			Message pendingMessage = this.getInbox().get(0);
+//			this.getInbox().remove(pendingMessage);
+//			this.serverState = (String) pendingMessage.getPropCont();
+//		} catch (Exception e) {
+//			logger.fine("There is no message in the inbox of the agent " + this.getID());
+//		}
+	}
 	
 	@Override
 	public Location getCurrentLocation() {

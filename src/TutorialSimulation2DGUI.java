@@ -55,19 +55,18 @@ public class TutorialSimulation2DGUI extends ShanksSimulation2DGUI {
 			e.printStackTrace();
 		}
 	}
-//
-//	@Override
-//	public void addCharts(Scenario2DPortrayal arg0)
-//			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
-//			ScenarioNotFoundException {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void locateFrames(Scenario2DPortrayal arg0) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+
+	@Override
+	public void addCharts(Scenario2DPortrayal arg0)
+			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
+			ScenarioNotFoundException {
+//		this.addTimeChart(Painter.MOTHER_CHART_ID, "Time / Steps", "How many times have a mother frightened a cat?");
+	}
+
+	@Override
+	public void locateFrames(Scenario2DPortrayal arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
