@@ -24,6 +24,7 @@ import es.upm.dit.gsi.shanks.model.scenario.exception.DuplicatedIDException;
 import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
 import es.upm.dit.gsi.shanks.model.scenario.exception.UnsupportedScenarioStatusException;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortrayalIDException;
+import es.upm.dit.gsi.shanks.painter.Painter;
 
 /**
  * @author a.carrera
@@ -74,23 +75,27 @@ public class TutorialSimulation extends ShanksSimulation {
 	}
 
 	public void addSteppables() {
-		Steppable steppable = new Steppable() {
+//		Steppable steppable = new Steppable() {
+//
+//			/**
+//             * 
+//             */
+//			private static final long serialVersionUID = 2669002521740395423L;
+//
+//			@Override
+//			public void step(SimState sim) {
+//				ShanksSimulation simulation = (ShanksSimulation) sim;
+//				logger.info("Resolved Failures :"
+//						+ simulation.getNumOfResolvedFailures() + " in step "
+//						+ sim.schedule.getSteps());
+//			}
+//		};
+//		schedule.scheduleRepeating(Schedule.EPOCH, 3, steppable, 500);
+		schedule.scheduleRepeating(Schedule.EPOCH, 3, new Painter(), 50);
 
-			/**
-             * 
-             */
-			private static final long serialVersionUID = 2669002521740395423L;
-
-			@Override
-			public void step(SimState sim) {
-				ShanksSimulation simulation = (ShanksSimulation) sim;
-				logger.info("Resolved Failures :"
-						+ simulation.getNumOfResolvedFailures() + " in step "
-						+ sim.schedule.getSteps());
-			}
-		};
-		schedule.scheduleRepeating(Schedule.EPOCH, 3, steppable, 500);
 	}
+	
+
 
 	@Override
 	public void registerShanksAgents() throws DuplicatedAgentIDException,

@@ -3,7 +3,10 @@
  */
 
 
+import java.util.HashMap;
 import java.util.Properties;
+
+import javax.swing.JFrame;
 
 import es.upm.dit.gsi.shanks.ShanksSimulation;
 import es.upm.dit.gsi.shanks.ShanksSimulation2DGUI;
@@ -13,6 +16,7 @@ import es.upm.dit.gsi.shanks.model.scenario.exception.ScenarioNotFoundException;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.Scenario2DPortrayal;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedChartIDException;
 import es.upm.dit.gsi.shanks.model.scenario.portrayal.exception.DuplicatedPortrayalIDException;
+import es.upm.dit.gsi.shanks.painter.Painter;
 
 /**
  * @author a.carrera
@@ -60,13 +64,17 @@ public class TutorialSimulation2DGUI extends ShanksSimulation2DGUI {
 	public void addCharts(Scenario2DPortrayal arg0)
 			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
-//		this.addTimeChart(Painter.MOTHER_CHART_ID, "Time / Steps", "How many times have a mother frightened a cat?");
+		this.addTimeChart(Painter.BW_CHART_ID, "Time / Steps", "Bandwidth / time");
 	}
 
 	@Override
-	public void locateFrames(Scenario2DPortrayal arg0) {
-		// TODO Auto-generated method stub
+	public void locateFrames(Scenario2DPortrayal scenarioPortrayal) {
+		HashMap<String, JFrame> frames = scenarioPortrayal.getFrameList();
+		JFrame mainFrame = frames.get(Scenario2DPortrayal.MAIN_DISPLAY_ID);
+		JFrame chartFrame = frames.get(Painter.BW_CHART_ID);
 		
+		mainFrame.setLocation(100, 100);
+		chartFrame.setLocation(500, 300);		
 	}
 
 }

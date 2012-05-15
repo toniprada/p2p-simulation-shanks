@@ -22,6 +22,7 @@ public class ServerAgent extends SimpleShanksAgent {
 	
 	private Logger logger = Logger.getLogger(ServerAgent.class.getName());
 	private Server server;
+	private double bandwidth;
 //	private String serverStatus;
 
 
@@ -68,6 +69,7 @@ public class ServerAgent extends SimpleShanksAgent {
 				}
 			}	
 			logger.info("BW" + bw);
+			this.bandwidth = bw;
 		} catch (UnsupportedNetworkElementStatusException e) {
 			logger.severe(e.getMessage());
 		}
@@ -79,6 +81,11 @@ public class ServerAgent extends SimpleShanksAgent {
 	public void checkMail() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	public double getBandwidth() {
+		return bandwidth;
 	}
 	
 }
