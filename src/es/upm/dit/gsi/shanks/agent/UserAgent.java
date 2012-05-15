@@ -5,6 +5,7 @@ package es.upm.dit.gsi.shanks.agent;
 
 import jason.asSemantics.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	private Location location;
 	private ProbabilisticNetwork bn;
 	
-	private int  clientsConnected;
+	private int clientsConnected;
 
 
 	public UserAgent(String id, Client computer, Location location) {
@@ -110,23 +111,24 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			// Check if any connection had been closed, 
 			// in this case will be necessary to 
 			// increase the stream from the server
+			int numberOfLinks = 0;
+			List<Link> links = computer.getLinks();
+			for (Link link : links) {
+				if (!link.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED) && !link.getID().contains("Server")) {
+					numberOfLinks++;
+				}
+			}
 			status = computer.getCurrentStatus();
 			if (!status.equals(Client.STATUS_OFF)) {
-				int numberOfLinks = -1;
-				List<Link> links = computer.getLinks();
-				for (Link link : links) {
-					if (!link.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)) {
-						numberOfLinks++;
-					}
-				}
-				if (numberOfLinks != clientsConnected) {
+				if (numberOfLinks < clientsConnected) {
 					Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
 					int difference = clientsConnected - numberOfLinks;
 					linkServer.changeUsage(+(difference*Connection.UPLOAD));
-					// Rebuild connected clients list
-					clientsConnected = numberOfLinks;
 				}
 			} 
+			clientsConnected = numberOfLinks;
+//			// Rebuild connected clients
+
 //			List<Link> links = computer.getLinks();
 //			int n = links.size();
 //			for (Link link : links) {
@@ -214,6 +216,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			throws UnsupportedNetworkElementStatusException,
 			TooManyConnectionException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
+//		logger.info(computer.getID() + " connectToNeighbours");
 //		 Connection of the client
 		int connections = 0;
 		List<Link> links = computer.getLinks();
@@ -227,7 +230,8 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			if (o instanceof Client) {
 				if (connections < Client.MAX_CONNECTIONS) {
 					Client neighbour = (Client) o;
-					if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)) {
+					if (!neighbour.getCurrentStatus().equals(Client.STATUS_OFF)
+							&& !neighbour.getID().equals(computer.getID())) {
 //						// Connections of the destiny
 						int neighbourConnections = 0;
 						links = neighbour.getLinks();
@@ -246,6 +250,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 									Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
 									if (linkServer != null) {
 										linkServer.changeUsage(-Connection.UPLOAD);
+										logger.info("1------------- " + computer.getID() + neighbour.getID());
 									}
 									connections++;
 									clientsConnected++;
@@ -260,6 +265,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 									Connection linkServer = (Connection) getLinkIfExists(computer, computer.getID(), "Server");
 									if (linkServer != null) {
 										linkServer.changeUsage(-Connection.UPLOAD);
+										logger.info("2-------------- " + computer.getID() + neighbour.getID());
 									}
 									connections++;
 									clientsConnected++;
@@ -280,6 +286,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	
 
 	private void closeAllConnections() throws UnsupportedNetworkElementStatusException {
+		logger.info("closeeeeeeeeee" + computer.getID());
 		List<Link> links = computer.getLinks();
 		for (Link link : links) {
 			Connection l = (Connection) link;
