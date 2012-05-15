@@ -30,8 +30,8 @@ public class NoIPFailure extends Failure {
 	public void addPossibleAffectedElements() {
 		this.addPossibleAffectedElements(EthernetRouter.class,
 				EthernetRouter.STATUS_NODHCP);
-		this.addPossibleAffectedElements(Client.class,
-				Client.STATUS_OVERLOADED);
+//		this.addPossibleAffectedElements(Client.class,
+//				Client.STATUS_OVERLOADED);
 	}
 
 	/*

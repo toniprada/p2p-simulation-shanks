@@ -12,11 +12,12 @@ import es.upm.dit.gsi.shanks.model.element.exception.UnsupportedNetworkElementSt
  */
 public class Client extends Device {
 	
-	public static final int MAX_CONNECTIONS = 3;
+	public static final int MAX_CONNECTIONS = 2;
 
 	public static final String STATUS_ON = "OK";
 	public static final String STATUS_OFF = "OFF";
 	public static final String STATUS_OVERLOADED = "OVERLOADED";
+	
 
 //	public static final String PROPERTY_POWER = "Power";
 //	public static final String PROPERTY_CONNECTION = "Connection";

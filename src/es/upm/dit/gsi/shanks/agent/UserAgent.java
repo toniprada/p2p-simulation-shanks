@@ -42,7 +42,8 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 	private Client computer;
 	private Location location;
 	private ProbabilisticNetwork bn;
-	
+	private int errors;
+
 	private ArrayList<Link> clientsConnected;
 
 
@@ -50,6 +51,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		super(id);
 		this.computer = computer;
 		this.location = location;
+		errors = 0;
 		clientsConnected = new ArrayList<Link>();
 		try {
 			ShanksAgentBayesianReasoningCapability.loadNetwork(this);
@@ -76,7 +78,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 			}
 			// State of the link to server
 			String status = computer.getCurrentStatus();
-			if (status.equals(Client.STATUS_ON)) {
+			if (!status.equals(Client.STATUS_OFF)) {
 				String s = getLinkIfExists(computer, computer.getID(), "Server").getCurrentStatus();
 				if (s.equals(Connection.STATUS_OVERLOADED)) {
 					computer.updateStatusTo(Client.STATUS_OVERLOADED);
@@ -104,26 +106,31 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 //			} 
 //			clientsConnected = numberOfLinks;
 //			status = computer.getCurrentStatus();
-			List<Link> links = computer.getLinks();
 			ArrayList<Link> linksNow = new ArrayList<Link>();
+			List<Link> links = computer.getLinks();
 			for (Link l : links) {
-				if (!l.getCurrentStatus()
-						.equals(Connection.STATUS_DISCONNECTED)
+				if (!l.getCurrentStatus().equals(Connection.STATUS_DISCONNECTED)
 						&& !l.getID().contains("Server")) {
 					linksNow.add(l);
 				}
 			}
 			if (!status.equals(Client.STATUS_OFF)) {
+				ArrayList<Link> linksToDelete = new ArrayList<Link>();
 				for (Link l : clientsConnected) {
-					if (!containsLink(linksNow, l)) {
+					if (!containsLink(linksNow, l) && !l.getID().contains("Server")) {
 						Connection linkServer = (Connection) getLinkIfExists(
 								computer, computer.getID(), "Server");
 						linkServer.changeUsage(+(Connection.UPLOAD));
-						logger.info("++upload: " + l.getID());
+						logger.info(computer.getID() + " ++upload: " + l.getID());
+						linksToDelete.add(l);
+						errors++;
 					}
 				}
+				for (Link l : linksToDelete) {
+					clientsConnected.remove(l);
+				}
 			}
-			clientsConnected = linksNow;
+//			clientsConnected = linksNow;
 			// Clear all percepts
 			ShanksAgentBayesianReasoningCapability.clearEvidences(this);
 			status = computer.getCurrentStatus();
@@ -143,7 +150,7 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 					.getAllHypotheses(this);
 			// Choose action
 			if (hypotheses.get("EnableP2PAction").get("true") >= 0.7) {
-//				connectP2P(simulation);
+				connectP2P(simulation);
 			}
 		} catch (UnsupportedNetworkElementStatusException e) {
 			e.printStackTrace();
@@ -158,14 +165,8 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 		}
 	}
 	
-	private boolean containsLink(List<Link> list, Link link) {
-		List<Device> ds = link.getLinkedDevices();
-		for (Device d : ds) {
-			if (d.getID().contains("Server")){
-				return true;
-			}
-		}
-		for (Link l : list) {
+	private boolean containsLink(List<Link> linksNow, Link link) {
+		for (Link l : linksNow) {
 			List<Device> devices = l.getLinkedDevices();
 			if (devices.size() == 2) {
 				String s1 = devices.get(0).getID();
@@ -315,6 +316,10 @@ public class UserAgent extends SimpleShanksAgent implements PercipientShanksAgen
 //		} catch (Exception e) {
 //			logger.fine("There is no message in the inbox of the agent " + this.getID());
 //		}
+	}
+	
+	public int getErrors() {
+		return this.errors;
 	}
 	
 	@Override

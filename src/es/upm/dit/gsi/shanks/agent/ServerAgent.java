@@ -88,6 +88,14 @@ public class ServerAgent extends SimpleShanksAgent {
 		return bandwidth;
 	}
 	
+	public double getOverload(){
+		if (bandwidth > Server.MAX_BANDWIDTH ) {
+			return (bandwidth - Server.MAX_BANDWIDTH);
+		} else {
+			return 0;
+		}
+	}
+	
 }
 
 

@@ -64,7 +64,10 @@ public class TutorialSimulation2DGUI extends ShanksSimulation2DGUI {
 	public void addCharts(Scenario2DPortrayal arg0)
 			throws DuplicatedChartIDException, DuplicatedPortrayalIDException,
 			ScenarioNotFoundException {
-		this.addTimeChart(Painter.BW_CHART_ID, "Time / Steps", "Bandwidth / time");
+		this.addTimeChart(Painter.BW_CHART_ID, "Time / Steps", "Bandwidth");
+		this.addTimeChart(Painter.OVERLOAD_CHART_ID, "Time / Steps", "Overload");
+		this.addTimeChart(Painter.ERROR_CHART_ID, "Time / Steps", "Errors");
+
 	}
 
 	@Override
@@ -75,6 +78,11 @@ public class TutorialSimulation2DGUI extends ShanksSimulation2DGUI {
 		
 		mainFrame.setLocation(100, 100);
 		chartFrame.setLocation(500, 300);		
+		JFrame chartFrame2 = frames.get(Painter.OVERLOAD_CHART_ID);
+		chartFrame2.setLocation(600, 300);		
+		JFrame chartFrame3 = frames.get(Painter.ERROR_CHART_ID);
+		chartFrame3.setLocation(700, 300);		
+
 	}
 
 }
